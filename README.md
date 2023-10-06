@@ -5,6 +5,9 @@ Your project's description...
 - Preview: https://main--{repo}--{owner}.hlx.page/
 - Live: https://main--{repo}--{owner}.hlx.live/
 
+- Preview: https://main--aem-helix-1--arunpatidar02.hlx.page/
+- Live: https://main--aem-helix-1--arunpatidar02.hlx.live/
+
 ## Installation
 
 ```sh
