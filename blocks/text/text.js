@@ -8,6 +8,7 @@ export default async function decorate(block) {
   // getting text and style rowsnpm install eslint --save-dev
   const textRow = utils.getRow(block, 0);
   const styleRow = utils.getRow(block, 1);
+  const cssClassName = 'hlx-text-content';
 
   // getting text and style values
   const style = utils.getColumnTextContentFromRow(styleRow, 1);
@@ -17,7 +18,7 @@ export default async function decorate(block) {
   utils.clearBlock(block);
 
   // decorates text element
-  text.className = `hlx-text_content${style ? ` text_${style}` : ''}`;
+  text.className = `${cssClassName}${style ? ` ${cssClassName}-${style}` : ''}`;
 
   // append text element
   block.append(text);

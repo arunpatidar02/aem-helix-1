@@ -3,22 +3,22 @@ div.text-wrapper{
 }
 
 
-.hlx-text_content{
+.hlx-text-content{
     display: block;
     font-size: var(--body-font-size-s);
     position: relative;
 }
 
-.hlx-text_content.text_lead{
+.hlx-text-content.hlx-text-content-lead{
     font-size: var(--body-font-size-m);
 }
 
-.hlx-text_content.text_paraformate {
-    color: rgb(108, 103, 103);
+.hlx-text-content.hlx-text-content-paraformate {
+    color: #6c6767;
     padding-left: 1rem;
 }
 
-.hlx-text_content.text_paraformate::before {
+.hlx-text-content.hlx-text-content-paraformate::before {
   position: absolute;
   content: '';
   border-left: 2px solid #d2d7da;
