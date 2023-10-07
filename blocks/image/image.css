@@ -1,0 +1,13 @@
+
+.hlx-image-content > picture {
+    width: 100%;
+    margin: auto;
+}
+
+.hlx-image-content > picture > img {
+    width: 90%;
+    padding-inline: 5%;
+}
+
+
+
