@@ -1,0 +1,27 @@
+div.text-wrapper{
+    margin-block: 1rem;
+}
+
+
+.hlx-text-content{
+    display: block;
+    font-size: var(--body-font-size-s);
+    position: relative;
+}
+
+.hlx-text-content.hlx-text-content-lead{
+    font-size: var(--body-font-size-m);
+}
+
+.hlx-text-content.hlx-text-content-paraformate {
+    color: #6c6767;
+    padding-left: 1rem;
+}
+
+.hlx-text-content.hlx-text-content-paraformate::before {
+  position: absolute;
+  content: '';
+  border-left: 2px solid #d2d7da;
+  height: 100%;
+  left: 0;
+  }
