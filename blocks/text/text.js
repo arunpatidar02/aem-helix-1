@@ -5,10 +5,11 @@ import utils from '../../scripts/utils.js';
  * @param {Element} block The text block element
  */
 export default async function decorate(block) {
-  // getting text and style rowsnpm install eslint --save-dev
+  const cssClassName = 'hlx-text-content';
+
+  // getting text and style rows
   const textRow = utils.getRow(block, 0);
   const styleRow = utils.getRow(block, 1);
-  const cssClassName = 'hlx-text-content';
 
   // getting text and style values
   const style = utils.getColumnTextContentFromRow(styleRow, 1);
@@ -17,8 +18,12 @@ export default async function decorate(block) {
   // clear the default rendering
   utils.clearBlock(block);
 
-  // decorates text element
-  text.className = `${cssClassName}${style ? ` ${cssClassName}-${style}` : ''}`;
+  // Decorate the text element with appropriate class names
+  const classNames = [cssClassName];
+  if (style) {
+    classNames.push(`${cssClassName}-${style}`);
+  }
+  text.className = classNames.join(' ');
 
   // append text element
   block.append(text);
