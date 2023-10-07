@@ -1,16 +1,13 @@
 import utils from '../../scripts/utils.js';
+import DOMUtils from '../../scripts/DOMUtils.js';
 
-/**
- * loads and decorates the text
- * @param {Element} block The text block element
- */
-export default async function decorate(block) {
+export function getPictureDOM(block, rows) {
   const cssClassName = 'hlx-image-content';
 
   // Get image, mobile image, and alt text rows
-  const imgRow = utils.getRow(block, 0);
-  const mobileImgRow = utils.getRow(block, 1);
-  const altTextImgRow = utils.getRow(block, 2);
+  const imgRow = utils.getRow(block, rows[0]);
+  const mobileImgRow = utils.getRow(block, rows[1]);
+  const altTextImgRow = utils.getRow(block, rows[2]);
 
   // Get alt text
   const altText = utils.getColumnTextContentFromRow(altTextImgRow, 1);
@@ -42,9 +39,16 @@ export default async function decorate(block) {
     pictureElement.insertBefore(sourceElement, pictureElement.firstChild);
   });
 
-  // Clear the default rendering inside the block
-  utils.clearBlock(block);
+  return imgDiv;
+}
 
-  // Append the decorated image div back to the block
-  block.append(imgDiv);
+/**
+ * loads and decorates the text
+ * @param {Element} block The text block element
+ */
+export default async function decorate(block) {
+  const contentRows = [0, 1, 2];
+  const ele = getPictureDOM(block, contentRows);
+  // clear the default rendering and append a text
+  DOMUtils.clearAndAppend(block, ele);
 }
