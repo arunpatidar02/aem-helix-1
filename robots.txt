@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://main--aem-helix-1--arunpatidar02.hlx.live/sitemap.xml
