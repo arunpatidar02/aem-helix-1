@@ -1,31 +1,30 @@
 import utils from '../../scripts/utils.js';
 import DOMUtils from '../../scripts/DOMUtils.js';
-import { getTextDOM } from '../text/text.js';
-import { getPictureDOM } from '../image/image.js';
+import { adaptToText } from '../text/text.js';
+import { adaptToImage } from '../image/image.js';
 
 /**
- * loads and decorates the text
- * @param {Element} block The text block element
+ * Loads and decorates the text and image elements based on image position.
+ * @param {Element} block - The text and image block element.
  */
 export default async function decorate(block) {
   const textRows = [0, 1];
   const imageRows = [2, 3, 4];
 
-  const textEle = getTextDOM(block, textRows);
-  const imageEle = getPictureDOM(block, imageRows);
+  // Get text and image elements
+  const textEle = adaptToText(block, textRows);
+  const imageEle = adaptToImage(block, imageRows);
 
+  // Get the image position
   const imagePositionRow = utils.getRow(block, 5);
-
-  // getting text and style values
   const imgPos = utils.getColumnTextContentFromRow(imagePositionRow, 1);
 
   DOMUtils.clearBlock(block);
 
+  // Determine the order based on image position
   if (imgPos?.toLowerCase() === 'left') {
-    block.append(imageEle);
-    block.append(textEle);
+    block.append(imageEle, textEle);
   } else {
-    block.append(textEle);
-    block.append(imageEle);
+    block.append(textEle, imageEle);
   }
 }
