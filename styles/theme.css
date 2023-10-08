@@ -1,0 +1,115 @@
+/* https://greensight.pro/ */
+ 
+ :root {
+  /* colors */
+  --color-primary: #222;
+  --color-link: #222;
+  --color-white: #fff;
+  --color-underlined: var(--color-primary);
+  --border-gray: #acaaaa;
+  --bg-primary: #F8F8F8;
+  --bg-secondary: #222;
+
+  /* fonts */
+  --text-size-small: 12px;
+  --text-size-primary: 16px;
+  --text-size-medium: 18px;
+  --text-size-large: 24px;
+  --font-1: apercu, sans-serif;
+  --heading-font-family: var(--body-font-family);
+  --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
+
+ 
+
+  /* heading sizes */
+  --heading-font-size-xxl: 88px;
+  --heading-font-size-xl: 72px;
+  --heading-font-size-l: 48px;
+  --heading-font-size-m: 32px;
+  --heading-font-size-s: 24px;
+  --heading-font-size-xs: 20px;
+
+  /* nav height */
+  --nav-height: 80px;
+
+}
+
+@font-face {
+  font-family: roboto-fallback;
+  size-adjust: 100.06%;
+  ascent-override: 95%;
+  src: local('Arial');
+}
+
+*,*:before,*:after {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box
+}
+
+div,span,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,code,img,b,u,i,center,table,tr,th,td,video,ul {
+  margin: 0;
+  padding: 0;
+  border: 0
+}
+
+sup {
+  line-height: 0;
+  font-size: smaller;
+  vertical-align: super
+}
+
+sub {
+  line-height: 0;
+  font-size: smaller;
+  vertical-align: sub
+}
+
+img:not([src]) {
+  visibility: hidden
+}
+
+
+body {
+  margin: auto;
+  font-family: var(--font-1);
+  font-size: var(--text-size-primary);
+  font-weight: 300;
+  background: var(--bg-primary);
+  color: var(--color-primary);
+  line-height: 200%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  max-width: 1700px;
+}
+
+
+h1, h2, h3 {
+  letter-spacing: -0.04em;
+  line-height: 110%;
+}
+
+
+h1 { font-size: var(--heading-font-size-xxl) }
+h2 { font-size: var(--heading-font-size-xl) }
+h3 { font-size: var(--heading-font-size-l) }
+h4 { font-size: var(--heading-font-size-m) }
+h5 { font-size: var(--heading-font-size-s) }
+h6 { font-size: var(--heading-font-size-xs) }
+
+main {
+  padding-inline: 1rem;
+}
+
+a{
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border-gray);
+  color: var(--color-primary);
+  font-size: var( --text-size-primary);
+ }
+
+ a:hover{
+  font-weight: 400;
+ }
