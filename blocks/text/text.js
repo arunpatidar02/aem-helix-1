@@ -1,7 +1,7 @@
 import utils from '../../scripts/utils.js';
 import DOMUtils from '../../scripts/DOMUtils.js';
 
-export function getTextDOM(block, rows) {
+export function adaptToText(block, rows) {
   const cssClassName = 'hlx-text-content';
 
   // getting text and style rows
@@ -28,7 +28,7 @@ export function getTextDOM(block, rows) {
  */
 export default async function decorate(block) {
   const contentRows = [0, 1];
-  const ele = getTextDOM(block, contentRows);
+  const ele = adaptToText(block, contentRows);
 
   // clear the default rendering and append a text
   DOMUtils.clearAndAppend(block, ele);

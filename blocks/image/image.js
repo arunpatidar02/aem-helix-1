@@ -1,7 +1,7 @@
 import utils from '../../scripts/utils.js';
 import DOMUtils from '../../scripts/DOMUtils.js';
 
-export function getPictureDOM(block, rows) {
+export function adaptToImage(block, rows) {
   const cssClassName = 'hlx-image-content';
 
   // Get image, mobile image, and alt text rows
@@ -48,7 +48,7 @@ export function getPictureDOM(block, rows) {
  */
 export default async function decorate(block) {
   const contentRows = [0, 1, 2];
-  const ele = getPictureDOM(block, contentRows);
+  const ele = adaptToImage(block, contentRows);
   // clear the default rendering and append a text
   DOMUtils.clearAndAppend(block, ele);
 }
