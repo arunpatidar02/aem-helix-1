@@ -1,4 +1,4 @@
-/* https://greensight.pro/ */
+/* https://dribbble.com/pro */
  
  :root {
   /* colors */
@@ -9,15 +9,14 @@
   --border-gray: #acaaaa;
   --bg-primary: #F8F8F8;
   --bg-secondary: #222;
+  --color-pink: #d145bf;
 
   /* fonts */
   --text-size-small: 12px;
   --text-size-primary: 16px;
   --text-size-medium: 18px;
   --text-size-large: 24px;
-  --font-1: apercu, sans-serif;
-  --heading-font-family: var(--body-font-family);
-  --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
+  --font-family: "Mona-Sans Regular", sans-serif;
 
  
 
@@ -41,9 +40,7 @@
   src: local('Arial');
 }
 
-*,*:before,*:after {
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
+*,*::before,*::after {
   box-sizing: content-box
 }
 
@@ -72,17 +69,22 @@ img:not([src]) {
 
 body {
   margin: auto;
-  font-family: var(--font-1);
+  font-family: var(--font-family);
   font-size: var(--text-size-primary);
   font-weight: 300;
   background: var(--bg-primary);
   color: var(--color-primary);
   line-height: 200%;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
   max-width: 1700px;
+}
+
+body > *:not(footer){
+  margin-bottom: 85px;
+}
+
+body main > div.section{
+  padding-block: 20px;
 }
 
 
@@ -110,6 +112,18 @@ a{
   font-size: var( --text-size-primary);
  }
 
+ a:has(picture){
+  border: none;
+ }
+
  a:hover{
   font-weight: 400;
  }
+
+ img{
+  width: 100%;
+  height: 100%;
+ }
+
+
+

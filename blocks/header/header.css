@@ -264,11 +264,6 @@ header nav .nav-sections ul > li > ul > li {
   }
 }
 
-@media (min-width: 1255px) {
-  header nav .nav-sections {
-    padding-right: 10rem;
-  }
-}
 
 /* tools */
 header nav .nav-tools {
@@ -293,7 +288,13 @@ header nav .nav-tools a:hover {
 }
 
 @media (max-width: 700px) {
-  header nav .nav-tools a {
+  header nav .nav-tools {
   display: none;
+}
+}
+
+@media (max-width: 350px) {
+  header nav .nav-brand img {
+  width: 100%;
 }
 }
