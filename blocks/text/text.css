@@ -5,12 +5,11 @@ div.text-wrapper{
 
 .hlx-text-content{
     display: block;
-    font-size: var(--body-font-size-s);
     position: relative;
 }
 
 .hlx-text-content.hlx-text-content-lead{
-    font-size: var(--body-font-size-m);
+    font-size: var(--text-size-large);
 }
 
 .hlx-text-content.hlx-text-content-paraformate {
@@ -21,7 +20,7 @@ div.text-wrapper{
 .hlx-text-content.hlx-text-content-paraformate::before {
   position: absolute;
   content: '';
-  border-left: 2px solid #d2d7da;
+  border-left: 3px solid var(--color-pink);
   height: 100%;
   left: 0;
-  }
+}
