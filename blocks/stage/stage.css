@@ -1,0 +1,47 @@
+.stage-wrapper {
+  margin-bottom: 10px;
+}
+
+.stage-wrapper .stage {
+  min-height: 40vh;
+  width: auto;
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 1rem;
+  max-width: 1200px;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  margin: auto;
+}
+
+.stage-headline,
+.stage-top-headline,
+.stage-description,
+.stage-bottom-text {
+  display: inline-block;
+  text-align: center;
+}
+
+.stage .stage-top-headline {
+    color: var(--color-pink);
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: var(--text-size-primary);
+  }
+
+.stage .stage-bottom-text {
+    color: var(--color-gray);
+  }
+
+.stage .button a {
+  border-radius: 200px;
+}
+
+.stage.badge .stage-top-headline {
+    color: var(--color-primary);
+    background-color: var(--bg-pink);
+    padding-inline: 15px;
+    border-radius: 50px;
+}

@@ -5,7 +5,6 @@ footer {
   font-size: var(--text-size-medium);
   background-color: var(--color-white);
   font-weight: 400;
-  margin-inline: -7rem;
 }
 
 
@@ -31,7 +30,8 @@ footer img{
  }
 
 footer .footer-logo img{
-width: 200px;
+  width: 250px;
+  height: 50px;
 }
 
 footer .footer p{

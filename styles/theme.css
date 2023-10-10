@@ -5,28 +5,30 @@
   --color-primary: #222;
   --color-link: #222;
   --color-white: #fff;
+  --color-gray: #797575;
   --color-underlined: var(--color-primary);
   --border-gray: #acaaaa;
   --bg-primary: #F8F8F8;
   --bg-secondary: #222;
   --color-pink: #d145bf;
+  --bg-pink: #ffabe7;
 
   /* fonts */
-  --text-size-small: 12px;
-  --text-size-primary: 16px;
-  --text-size-medium: 18px;
-  --text-size-large: 24px;
+  --text-size-small: .75rem;
+  --text-size-primary: 1rem;
+  --text-size-medium: 1.25rem;
+  --text-size-large: 1.5rem;
   --font-family: "Mona-Sans Regular", sans-serif;
 
  
 
   /* heading sizes */
-  --heading-font-size-xxl: 88px;
-  --heading-font-size-xl: 72px;
-  --heading-font-size-l: 48px;
-  --heading-font-size-m: 32px;
-  --heading-font-size-s: 24px;
-  --heading-font-size-xs: 20px;
+  --heading-font-size-xxl: 5rem;
+  --heading-font-size-xl: 4rem;
+  --heading-font-size-l: 3rem;
+  --heading-font-size-m: 2rem;
+  --heading-font-size-s: 1.5rem;
+  --heading-font-size-xs: 1rem;
 
   /* nav height */
   --nav-height: 80px;
@@ -73,7 +75,6 @@ img:not([src]) {
 
 
 body {
-  margin: auto;
   font-family: var(--font-family);
   font-size: var(--text-size-primary);
   font-weight: 300;
@@ -81,15 +82,15 @@ body {
   color: var(--color-primary);
   line-height: 200%;
   overflow-x: hidden;
-  max-width: 1700px;
 }
 
 body > *:not(footer){
   margin-bottom: 85px;
 }
 
-body main > div.section{
-  padding-block: 20px;
+main,header{
+  max-width: 2000px;
+  margin: auto;
 }
 
 
@@ -105,6 +106,14 @@ h3 { font-size: var(--heading-font-size-l) }
 h4 { font-size: var(--heading-font-size-m) }
 h5 { font-size: var(--heading-font-size-s) }
 h6 { font-size: var(--heading-font-size-xs) }
+
+@media (max-width: 998px) {
+  h1 { font-size: var(--heading-font-size-xl) }
+  h2 { font-size: var(--heading-font-size-l) }
+  h3 { font-size: var(--heading-font-size-m) }
+  h4 { font-size: var(--heading-font-size-s) }
+  h5 { font-size: var(--heading-font-size-xs) }
+}
 
 main {
   padding-inline: 1rem;
@@ -125,6 +134,24 @@ a{
   font-weight: 400;
  }
 
+ .picture-banner{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
 
+.button a{
+  border: 1px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 24px;
+  cursor: pointer;
+  color: var(--color-white);
+  background-color: var(--bg-secondary);
+}
 
+.button a:hover {
+  background-color: var(--color-white);
+  color: var(--bg-secondary);
+}
 

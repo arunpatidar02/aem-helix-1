@@ -279,7 +279,7 @@ header nav .nav-tools a {
   padding-inline: 30px;
   padding-block: 10px;
   font-weight: 600;
-  font-size: var(--text-size-medum);
+  font-size: var(--text-size-primary);
 }
 
 header nav .nav-tools a:hover {
