@@ -3,7 +3,7 @@
 }
 
 .stage-wrapper .stage {
-  min-height: 100vh;
+  min-height: 40vh;
   width: auto;
   align-items: center;
   display: flex;
