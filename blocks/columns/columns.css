@@ -126,8 +126,9 @@
   position: absolute;
   content: "";
   border-left: 3px solid var(--color-pink);
-  height: 100%;
+  height: calc(100% - 120px);
   left: 0;
+  top: 80px;
 }
 
 .columns.columns-1-cols.code {
