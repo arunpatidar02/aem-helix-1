@@ -9,7 +9,8 @@
 
 .cards > ul > li {
   border: 1px solid var(--highlight-background-color);
-  background-color: var(--background-color)
+  background-color: var(--background-color);
+  position: relative;
 }
 
 .cards .cards-card-body {
@@ -28,4 +29,11 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  border-radius: 8px;
+}
+
+.cards.marquee .cards-card-body{
+  color: var(--color-white);
+  position: absolute;
+  bottom: 0;
 }

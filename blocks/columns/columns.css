@@ -127,7 +127,6 @@
 
 .columns.columns-1-cols.code {
   color: var(--color-light-gray);
-  border: 1px solid var(--border-gray);
   padding: 1rem;
   font-family: "Courier New", Courier, monospace;
 }
