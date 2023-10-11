@@ -32,7 +32,7 @@
   }
 
   .columns.teaser > div > div:not(.columns-img-col) {
-    margin-top:0rem;
+    margin-top:0;
   }
 
   .columns > div > div.columns-img-col {
@@ -93,13 +93,13 @@
 .columns.teaser > div > .columns-img-col img {
   border-radius: 48px;
 }
+
 .columns.teaser > div > div:not(.columns-img-col) {
   border-radius: 48px;
   background-color: var(--bg-primary);
   padding:2rem;
   margin-top:1rem;
 }
-
 
 .columns.teaser.columns-1-cols>div>div{
   align-items: center;
