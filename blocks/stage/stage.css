@@ -1,3 +1,7 @@
+main > .section.stage-container {
+  max-width: 100%;
+}
+
 .stage-wrapper {
   margin-bottom: 10px;
 }
@@ -25,23 +29,23 @@
 }
 
 .stage .stage-top-headline {
-    color: var(--color-pink);
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: var(--text-size-primary);
-  }
+  color: var(--color-pink);
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: var(--text-size-primary);
+}
 
 .stage .stage-bottom-text {
-    color: var(--color-gray);
-  }
+  color: var(--color-gray);
+}
 
 .stage .button a {
   border-radius: 200px;
 }
 
 .stage.badge .stage-top-headline {
-    color: var(--color-primary);
-    background-color: var(--bg-pink);
-    padding-inline: 15px;
-    border-radius: 50px;
+  color: var(--color-primary);
+  background-color: var(--bg-pink);
+  padding-inline: 15px;
+  border-radius: 50px;
 }

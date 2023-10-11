@@ -1,26 +1,27 @@
 /* https://dribbble.com/pro */
- 
- :root {
+
+:root {
   /* colors */
   --color-primary: #222;
   --color-link: #222;
   --color-white: #fff;
   --color-gray: #797575;
+  --color-light-gray: #aaa3a3;
   --color-underlined: var(--color-primary);
   --border-gray: #acaaaa;
-  --bg-primary: #F8F8F8;
+  --bg-primary: #f8f7f4;
+  --bg-white: #fff;
   --bg-secondary: #222;
   --color-pink: #d145bf;
   --bg-pink: #ffabe7;
 
+
   /* fonts */
-  --text-size-small: .75rem;
+  --text-size-small: 0.75rem;
   --text-size-primary: 1rem;
   --text-size-medium: 1.25rem;
   --text-size-large: 1.5rem;
   --font-family: "Mona-Sans Regular", sans-serif;
-
- 
 
   /* heading sizes */
   --heading-font-size-xxl: 5rem;
@@ -32,116 +33,168 @@
 
   /* nav height */
   --nav-height: 80px;
-
 }
 
 @font-face {
   font-family: roboto-fallback;
   size-adjust: 100.06%;
   ascent-override: 95%;
-  src: local('Arial');
+  src: local("Arial");
 }
 
-*,*::before,*::after {
-  box-sizing: content-box
+*,
+*::before,
+*::after,
+*::marker {
+  box-sizing: content-box;
 }
 
-div,span,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,code,img,b,u,i,center,table,tr,th,td,video,ul {
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+code,
+img,
+b,
+u,
+i,
+center,
+table,
+tr,
+th,
+td,
+video,
+ul {
   margin: 0;
   padding: 0;
-  border: 0
+  border: 0;
 }
 
 sup {
   line-height: 0;
   font-size: smaller;
-  vertical-align: super
+  vertical-align: super;
 }
 
 sub {
   line-height: 0;
   font-size: smaller;
-  vertical-align: sub
+  vertical-align: sub;
 }
 
-img{
+img {
   width: 100%;
   height: 100%;
- }
-
-img:not([src]) {
-  visibility: hidden
 }
 
+img:not([src]) {
+  visibility: hidden;
+}
 
 body {
   font-family: var(--font-family);
   font-size: var(--text-size-primary);
   font-weight: 300;
-  background: var(--bg-primary);
+  background: var(--bg-white);
   color: var(--color-primary);
-  line-height: 200%;
+  line-height: 2;
   overflow-x: hidden;
 }
 
-body > *:not(footer){
+body > *:not(footer) {
   margin-bottom: 85px;
 }
 
-main,header{
+main,
+header {
   max-width: 2000px;
   margin: auto;
 }
 
-
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   letter-spacing: -0.04em;
   line-height: 110%;
 }
 
+h1 {
+  font-size: var(--heading-font-size-xxl);
+}
 
-h1 { font-size: var(--heading-font-size-xxl) }
-h2 { font-size: var(--heading-font-size-xl) }
-h3 { font-size: var(--heading-font-size-l) }
-h4 { font-size: var(--heading-font-size-m) }
-h5 { font-size: var(--heading-font-size-s) }
-h6 { font-size: var(--heading-font-size-xs) }
+h2 {
+  font-size: var(--heading-font-size-xl);
+}
+
+h3 {
+  font-size: var(--heading-font-size-l);
+}
+
+h4 {
+  font-size: var(--heading-font-size-m);
+}
+
+h5 {
+  font-size: var(--heading-font-size-s);
+}
+
+h6 {
+  font-size: var(--heading-font-size-xs);
+}
 
 @media (max-width: 998px) {
-  h1 { font-size: var(--heading-font-size-xl) }
-  h2 { font-size: var(--heading-font-size-l) }
-  h3 { font-size: var(--heading-font-size-m) }
-  h4 { font-size: var(--heading-font-size-s) }
-  h5 { font-size: var(--heading-font-size-xs) }
+  h1 {
+    font-size: var(--heading-font-size-xl);
+  }
+
+  h2 {
+    font-size: var(--heading-font-size-l);
+  }
+
+  h3 {
+    font-size: var(--heading-font-size-m);
+  }
+
+  h4 {
+    font-size: var(--heading-font-size-s);
+  }
+
+  h5 {
+    font-size: var(--heading-font-size-xs);
+  }
 }
 
-main {
-  padding-inline: 1rem;
-}
-
-a{
+a {
   text-decoration: none;
   border-bottom: 1px dotted var(--border-gray);
   color: var(--color-primary);
-  font-size: var( --text-size-primary);
- }
+  font-size: var(--text-size-primary);
+}
 
- a:has(picture){
+a:has(picture) {
   border: none;
- }
+}
 
- a:hover{
+a:hover {
   font-weight: 400;
- }
+}
 
- .picture-banner{
+.picture-banner {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
 }
 
-.button a{
+.button a {
   border: 1px solid var(--color-primary);
   border-radius: 20px;
   padding: 16px 24px;
@@ -155,3 +208,17 @@ a{
   color: var(--bg-secondary);
 }
 
+main > .section {
+  max-width: 1320px;
+  margin: auto;
+  margin-top: 30px;
+  padding: 10px;
+}
+
+main ul {
+  margin-left: 1.25rem;
+}
+
+main ul > li::marker {
+  color: var(--color-pink);
+}
