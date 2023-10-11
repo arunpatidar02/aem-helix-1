@@ -29,18 +29,11 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-}
-
-.cards > ul > li img {
   border-radius: 8px;
 }
 
-
 .cards.marquee .cards-card-body{
   color: var(--color-white);
-}
-
-.cards.marquee .cards-card-body{
   position: absolute;
   bottom: 0;
 }
