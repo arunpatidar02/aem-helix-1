@@ -3,7 +3,7 @@ footer {
   padding: 2rem 1rem;
   color: var(--color-primary);
   font-size: var(--text-size-medium);
-  background-color: var(--bg-primary);
+  border-top: 1px solid var(--bg-primary);
   font-weight: 400;
 }
 
