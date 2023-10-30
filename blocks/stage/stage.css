@@ -31,7 +31,7 @@ main > .section.stage-container {
 .stage .stage-top-headline {
   color: var(--color-pink);
   text-transform: uppercase;
-  font-weight: 400;
+  font-family: var(--font-family-bold);
   font-size: var(--text-size-primary);
 }
 

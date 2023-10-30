@@ -19,7 +19,8 @@
   --text-size-primary: 1rem;
   --text-size-medium: 1.25rem;
   --text-size-large: 1.5rem;
-  --font-family: "Mona-Sans Regular", sans-serif;
+  --font-family: "TitilliumWeb-Regular", sans-serif;
+  --font-family-bold: "TitilliumWeb-Bold", sans-serif;
 
   /* heading sizes */
   --heading-font-size-xxl: 4.5rem;
@@ -34,10 +35,13 @@
 }
 
 @font-face {
-  font-family: roboto-fallback;
-  size-adjust: 100.06%;
-  ascent-override: 95%;
-  src: local("Arial");
+  font-family: TitilliumWeb-Regular;
+  src: url('/fonts/TitilliumWeb-Regular.ttf');
+}
+
+@font-face {
+  font-family: TitilliumWeb-Bold;
+  src: url('/fonts/TitilliumWeb-Bold.ttf');
 }
 
 *,
@@ -76,6 +80,10 @@ ul {
   border: 0;
 }
 
+strong {
+  font-family: var(--font-family-bold);
+}
+
 sup {
   line-height: 0;
   font-size: smaller;
@@ -100,15 +108,21 @@ img:not([src]) {
 body {
   font-family: var(--font-family);
   font-size: var(--text-size-primary);
-  font-weight: 300;
   background: var(--bg-white);
   color: var(--color-primary);
   line-height: 2;
   overflow-x: hidden;
+  margin: 0;
 }
 
 body > *:not(footer) {
   margin-bottom: 85px;
+}
+
+@media (max-width: 525px) {
+  body > *:not(footer) {
+    margin-bottom: 25px;
+  }
 }
 
 main,
@@ -185,6 +199,7 @@ a:has(picture) {
 }
 
 a:hover {
+  font-family: var(--font-family-bold);
   font-weight: 400;
 }
 
