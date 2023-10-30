@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:title" content="Page not found">
   <script src="/scripts/scripts.js" type="module" crossorigin="use-credentials"></script>
+  <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
   <script type="module">
     import { sampleRUM } from '/scripts/aem.js';
 
@@ -44,6 +45,22 @@
     main.error .error-number text {
       font-family: var(--fixed-font-family);
     }
+
+    p.des-line-1{
+      font-size: var(--text-size-medium);
+    }
+
+    p.des-line-2{
+      font-size: var(--text-size-large);
+      margin:2rem 0 1rem 0;
+    }
+
+    p.des-line-2 a{
+      font-size: var(--text-size-large);
+      border-color: var(--color-pink);
+      color: var(--color-link);
+      font-weight: 400;
+    }
   </style>
   <link rel="stylesheet" href="/styles/lazy-styles.css">
 </head>
@@ -51,15 +68,16 @@
 <body>
   <header></header>
   <main class="error">
-    <div class="section">
-      <svg viewBox="1 0 38 18" class="error-number">
-        <text x="0" y="17">404</text>
-      </svg>
-      <h2 class="error-message">Page Not Found</h2>
-      <p class="button-container">
-        <a href="/" class="button secondary error-button-home">Go home</a>
-      </p>
+  <div class="stage-wrapper"><div class="stage badge block" data-block-name="stage" data-block-status="loaded"> 
+    <div class="stage-top-headline">404 Error</div>
+    <div class="stage-headline">
+      <h1 id="create-a-website-seriously-fast">Oh, Snap! Page Not Found</h1>
     </div>
+    <div class="stage-description">
+      <p class="des-line-1">Looks like you stumbled upon a page that doesn't exist. Don't worry, we sent our best squirrels to find it, but they're a bit lazy.<p>
+      <p class="des-line-2">While they're on it, how about you go back to the <a href="/">home page</a>?</p>
+    </div>
+  </div>
   </main>
   <footer></footer>
 </body>
