@@ -12,6 +12,7 @@ main > .section.stage-container {
   min-height: 40vh;
   width: auto;
   align-items: center;
+  justify-content: center;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 1rem;

@@ -1,4 +1,16 @@
 User-agent: *
-Allow: /
+disallow: /documentation/
+Disallow: /_drafts/
+Disallow: /_tools/
+Disallow: /fragments/
+Disallow: /**/fragments/
+Disallow: /nav
+Disallow: /**/nav
+Disallow: /footer
+Disallow: /**/footer
+Disallow: /thankyou
+Disallow: /**/thankyou
+Disallow: /search
+Disallow: /**/search
 
 Sitemap: https://main--aem-helix-1--arunpatidar02.hlx.live/sitemap.xml
