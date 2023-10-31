@@ -4,12 +4,15 @@ main > .section.stage-container {
 
 .stage-wrapper {
   margin-bottom: 10px;
+  min-height: 40vh;
+  display: flex;
 }
 
 .stage-wrapper .stage {
   min-height: 40vh;
   width: auto;
   align-items: center;
+  justify-content: center;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 1rem;
@@ -31,7 +34,7 @@ main > .section.stage-container {
 .stage .stage-top-headline {
   color: var(--color-pink);
   text-transform: uppercase;
-  font-weight: 400;
+  font-family: var(--font-family-bold);
   font-size: var(--text-size-primary);
 }
 

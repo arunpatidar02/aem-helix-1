@@ -4,7 +4,7 @@ footer {
   color: var(--color-primary);
   font-size: var(--text-size-medium);
   border-top: 1px solid var(--bg-primary);
-  font-weight: 400;
+  font-family: var(--font-family-bold);
 }
 
 footer ul {
@@ -34,8 +34,8 @@ footer .footer-logo img {
 
 footer .footer p {
   margin-top: 20px;
-  justify-content: center;
-  font-weight: 600;
+  font-family: var(--font-family);
+  
 }
 
 footer .footer-link-row {
