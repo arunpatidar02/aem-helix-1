@@ -131,7 +131,7 @@
   top: 80px;
 }
 
-.columns.columns-1-cols.code {
+.columns.columns-1-cols.code, code {
   color: var(--color-light-gray);
   padding: 1rem;
   font-family: "Courier New", Courier, monospace;
