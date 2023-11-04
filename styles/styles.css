@@ -239,6 +239,18 @@ main > .section {
   padding: 10px;
 }
 
+main > .section.full-width{
+  max-width: 100%;
+}
+
+main > .section.text-align-center{
+text-align: center;
+} 
+
+main > .section.margin-bottom{
+margin-bottom: 7rem;
+}
+
 main ul {
   margin-left: 1.25rem;
 }
