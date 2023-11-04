@@ -50,45 +50,6 @@
   padding-block: 20px;
 }
 
-.columns .button-container a {
-  border: none;
-  font-family: var(--font-family-bold);
-  color: var(--color-link);
-  margin-right: 20px;
-}
-
-.columns .button-container a::after {
-  content: "\2192";
-  padding-left: 5px;
-}
-
-.columns .button-container a:hover {
-  color: var(--color-gray);
-}
-
-.columns.cta .button-container a {
-  border: 1px solid var(--color-primary);
-  border-radius: 20px;
-  padding: 12px 16px;
-  cursor: pointer;
-  color: var(--color-white);
-  background-color: var(--bg-secondary);
-}
-
-
-.columns.cta .button-container a::after {
-  content: none;
-}
-
-.columns.cta .button-container + .button-container a {
-  background-color: var(--color-white);
-  color: var(--bg-secondary);
-}
-
-.columns.cta .button-container a:hover{
-  opacity: 0.7;
-}
-
 .columns.teaser {
   max-width: 1200px;
   margin: auto;
