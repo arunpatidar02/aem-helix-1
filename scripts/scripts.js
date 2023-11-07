@@ -15,6 +15,8 @@ import {
   toClassName,
 } from './aem.js';
 
+import { opneGoogleDrive } from '../tools/sidekick/plugins/google-drive-open.js';
+
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
 // Define the custom audiences mapping for experimentation
@@ -177,3 +179,4 @@ async function loadPage() {
 }
 
 loadPage();
+opneGoogleDrive();

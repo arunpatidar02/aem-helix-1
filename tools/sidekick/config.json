@@ -1,11 +1,16 @@
 {
-    "project": "AEM Lab",
-    "plugins": [
-      {
-        "id": "library",
-        "title": "Library",
-        "environments": ["edit"],
-        "url": "/tools/sidekick/library.html"
-      }
-    ]
-  }
+  "project": "AEM Lab",
+  "plugins": [
+    {
+      "id": "library",
+      "title": "Library",
+      "environments": ["edit"],
+      "url": "/tools/sidekick/library.html"
+    },
+    {
+      "id": "open",
+      "title": "Open Google Drive",
+      "event": "open"
+    }
+  ]
+}
