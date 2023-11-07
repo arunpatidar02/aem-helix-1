@@ -84,3 +84,7 @@
   text-align: center;
 }
 
+.columns.teaser.columns-1-cols  ul {
+  list-style-position: inside;
+}
+
