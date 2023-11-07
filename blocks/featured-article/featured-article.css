@@ -39,13 +39,12 @@
 }
 
 .featured-article .text p {
-    font-size: 14px;
     margin: 0;
     line-height: 1.75;
 }
 
 .featured-article .text p.pretitle {
-    font-size: 18px;
+    font-size: var(--text-size-medium);
     font-weight: 700;
     margin: 0;
     line-height: 1.75;

@@ -1,5 +1,5 @@
 .columns{
-  padding-block: 2rem;
+  margin-block: 2rem;
 }
 
 .columns > div {
@@ -35,10 +35,6 @@
     order: unset;
   }
 
-  .columns.teaser > div > div:not(.columns-img-col) {
-    margin-top:0;
-  }
-
   .columns > div > div.columns-img-col {
     width: 100%;
     max-width: 650px;
@@ -47,30 +43,10 @@
 
 .columns .button-container {
   display: inline-block;
-  padding-block: 20px;
 }
 
-.columns.teaser {
-  max-width: 1200px;
-  margin: auto;
-}
-
-.columns.teaser > div > .columns-img-col img {
-  border-radius: 48px;
-}
-
-.columns.teaser > div > div:not(.columns-img-col) {
-  border-radius: 48px;
-  background-color: var(--bg-primary);
-  padding:2rem;
-  margin-bottom: 1rem;
-
-}
-
-.columns.teaser.columns-1-cols>div>div{
-  align-items: center;
-  display: flex;
-  flex-direction: column;
+.columns .button-container + .button-container{
+  padding-left: 1rem;
 }
 
 .columns.columns-1-cols.lead {
@@ -97,3 +73,14 @@
   padding: 1rem;
   font-family: "Courier New", Courier, monospace;
 }
+
+.columns.teaser {
+  border-radius: 20px;
+  background-color: var(--bg-primary);
+  padding: 1rem;
+}
+
+.columns.teaser.columns-1-cols {
+  text-align: center;
+}
+
