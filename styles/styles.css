@@ -13,6 +13,7 @@
   --bg-secondary: #222;
   --color-pink: #d145bf;
   --bg-pink: #ffabe7;
+  --bg-tag-color:#8989ee;
 
 
   /* fonts */
@@ -33,16 +34,6 @@
 
   /* nav height */
   --nav-height: 80px;
-}
-
-@font-face {
-  font-family: TitilliumWeb-Regular;
-  src: url('/fonts/TitilliumWeb-Regular.ttf');
-}
-
-@font-face {
-  font-family: TitilliumWeb-Bold;
-  src: url('/fonts/TitilliumWeb-Bold.ttf');
 }
 
 *,
