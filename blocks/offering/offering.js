@@ -16,6 +16,14 @@ function parseJson(json) {
   return json ? JSON.parse(json) : null;
 }
 
+function getCTA(data, type) {
+  const ctaButton = document.createElement('a');
+  ctaButton.className = `button ${type}`;
+  ctaButton.innerText = data.ctaLabel;
+  ctaButton.href = data.ctaLink;
+  return ctaButton;
+}
+
 export default async function decorate(block) {
   const link = block.querySelector('a');
   const path = link ? link.getAttribute('href') : block.textContent.trim();
@@ -64,10 +72,7 @@ export default async function decorate(block) {
       const tileText = document.createElement('p');
       tileText.innerText = tileData.text;
 
-      const ctaButton = document.createElement('a');
-      ctaButton.className = 'button primary';
-      ctaButton.innerText = tileData.ctaLabel;
-      ctaButton.href = tileData.ctaLink;
+      const ctaButton = getCTA(tileData, 'secondary');
 
       tile.appendChild(tileIcon);
       tile.appendChild(tileHeadline);
@@ -77,6 +82,7 @@ export default async function decorate(block) {
       tilesWrapper.appendChild(tile);
     });
     offers.appendChild(tilesWrapper);
+    offers.appendChild(getCTA(offerData, 'primary'));
     block.appendChild(offers);
   });
 }
