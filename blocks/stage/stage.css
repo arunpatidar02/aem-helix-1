@@ -52,3 +52,12 @@ main > .section.stage-container {
   padding-inline: 15px;
   border-radius: 50px;
 }
+
+.stage .stage-background{
+  position: absolute;
+  left: calc(-20rem);
+  top: 0;
+  width: calc(100% + 40rem);
+  height: 100%;
+  z-index: -1;
+}

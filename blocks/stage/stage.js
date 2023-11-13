@@ -25,20 +25,12 @@ export default async function decorate(block) {
     column.className = classNames[i];
     if (classNames[i] === 'stage-background') {
       const imgEle = column.querySelector('img');
-
       const stageWrapperEle = block.parentNode;
-
-      if (imgEle) {
-        const imgSrc = imgEle.src;
-        stageWrapperEle.style.backgroundImage = `url(${imgSrc})`;
-        stageWrapperEle.classList.add('picture-banner');
-      } else {
+      if (!imgEle) {
         const color = DOMUtils.getTextContent(column);
         stageWrapperEle.style.backgroundColor = color;
         stageWrapperEle.classList.add('color-banner');
       }
-
-      column.remove();
     }
   }
 }
