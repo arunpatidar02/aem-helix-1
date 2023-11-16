@@ -28,6 +28,10 @@ sp-menu {
     align-items: center;
 }
 
+.container .tag-item-wrapper sp-menu-item{
+    width: 100%;
+}
+
 .container .tag-item-wrapper ion-icon {
     margin-inline: 0.5rem;
     font-size: 1.25rem;
