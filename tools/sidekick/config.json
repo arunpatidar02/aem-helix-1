@@ -8,9 +8,14 @@
       "url": "/tools/sidekick/library.html"
     },
     {
-      "id": "open",
+      "id": "open-drive",
       "title": "Open Google Drive",
-      "event": "open"
+      "event": "open-drive"
+    },
+    {
+      "id": "open-github",
+      "title": "Open GitHub",
+      "event": "open-github"
     }
   ]
 }
