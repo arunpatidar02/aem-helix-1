@@ -16,6 +16,7 @@ import {
 } from './aem.js';
 
 import { opneGoogleDrive } from '../tools/sidekick/plugins/google-drive-open.js';
+import { openGitHubRepo } from '../tools/sidekick/plugins/github-open.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
@@ -180,3 +181,4 @@ async function loadPage() {
 
 loadPage();
 opneGoogleDrive();
+openGitHubRepo();
