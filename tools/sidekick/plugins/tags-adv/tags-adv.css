@@ -1,0 +1,49 @@
+:root {
+    --swc-menu-width: 100%;
+}
+
+.container {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+}
+
+sp-menu {
+    height: 100%;
+}
+
+.footer {
+    height: 45px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container .tag-item-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.container .tag-item-wrapper sp-menu-item{
+    width: 100%;
+}
+
+.container .tag-item-wrapper ion-icon {
+    margin-inline: 0.5rem;
+    font-size: 1.25rem;
+}
+
+
+.container .tag-item-wrapper:has(sp-menu-item[aria-checked="true"]) ion-icon[name="pricetag-outline"]{
+    display: none;
+}
+
+.container .tag-item-wrapper:has(sp-menu-item[aria-checked="false"]) ion-icon[name="pricetag"]{
+    display: none;
+}
+
+
