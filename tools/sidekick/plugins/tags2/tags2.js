@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-plusplus */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
@@ -42,9 +43,95 @@ function removeUndefined(obj) {
   }
 }
 
+function removeColumnContent(colEle) {
+  const list = colEle.querySelector('ul');
+  if (list) {
+    colEle.removeChild(list);
+  }
+}
+
+function findObjectByKey(json, keyToFind) {
+  let result = null;
+
+  function searchObject(obj, key) {
+    for (const currentKey in obj) {
+      if (currentKey === key) {
+        result = obj[currentKey];
+        break;
+      } else if (typeof obj[currentKey] === 'object') {
+        searchObject(obj[currentKey], key);
+      }
+    }
+  }
+
+  searchObject(json, keyToFind);
+  return result;
+}
+
+function getSubCategoryColumnElement(columnNumber) {
+  return document.querySelector(`.subcategory[data-col="${columnNumber}"]`);
+}
+
+function collapseColumns(curColNum) {
+  for (let i = 5; i > curColNum; i--) {
+    const colEle = getSubCategoryColumnElement(i);
+    colEle.classList.remove('expanded');
+    removeColumnContent(colEle);
+  }
+}
+
+function createNavigation(dataObj, parentKey, parentElement) {
+  const ul = document.createElement('ul');
+  parentElement?.appendChild(ul);
+  const elementJson = parentKey ? findObjectByKey(dataObj, parentKey) : dataObj;
+
+  for (const key in elementJson) {
+    const obj = elementJson[key];
+    const objKeys = Object.keys(obj);
+    const li = document.createElement('li');
+    const tagItem = `<div class="tag-item-wrapper">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <ion-icon name="pricetag"></ion-icon>
+          <sp-menu-item class="item" value="${key}"}>${key}</sp-menu-item>
+        </div>`;
+
+    li.innerHTML = tagItem;
+
+    if (objKeys.length > 0) {
+      const icon = document.createElement('sp-icon-chevron-right');
+      li.appendChild(icon);
+      addEventListeners(dataObj, icon);
+    }
+
+    ul.appendChild(li);
+  }
+}
+
+function addEventListeners(dataObj, element) {
+  element.addEventListener('click', () => {
+    const { parentElement } = element;
+    const isActive = parentElement.classList.contains('active');
+    const parentKey = parentElement.querySelector('.item').textContent.trim();
+    const curColEle = parentElement.closest('.column');
+    const curColNum = Number(curColEle.dataset.col);
+    const nextColEle = getSubCategoryColumnElement(curColNum + 1);
+
+    if (isActive) {
+      removeColumnContent(nextColEle);
+      curColEle.classList.remove('expanded');
+    } else {
+      collapseColumns(curColNum);
+      createNavigation(dataObj, parentKey, nextColEle);
+      curColEle.classList.add('expanded');
+    }
+
+    parentElement.classList.toggle('active');
+  });
+}
+
 function convertFlatArrayToHierarchy(flatArray) {
   const hierarchy = {};
-  const stack = [];
+  let stack = [];
 
   flatArray.forEach((item) => {
     let currentLevel = hierarchy;
@@ -54,7 +141,10 @@ function convertFlatArrayToHierarchy(flatArray) {
       const value = item[key];
 
       if (value !== '') {
-        // If the value is not empty, add it to the current level
+        // If the value is not empty, add it to the current level or at category level
+        if (i === 0) {
+          stack = [];
+        }
         currentLevel[value] = currentLevel[value] || {};
         currentLevel = currentLevel[value];
         stack[i - 1] = value;
@@ -78,6 +168,7 @@ export async function decorate(container, data, query) {
 
   // const dataObj = data;
   const dataObj = convertFlatArrayToHierarchy(data);
+  console.log(dataObj);
   removeUndefined(dataObj);
 
   const createMenuItems = () => {
@@ -94,7 +185,8 @@ export async function decorate(container, data, query) {
         </div>`;
       });
     } else {
-      console.log('create nav menu');
+      const parentElement = document.querySelector('.category');
+      createNavigation(dataObj, null, parentElement);
     }
     return resultString;
   };
@@ -125,7 +217,13 @@ export async function decorate(container, data, query) {
 
   const menuItems = createMenuItems();
   const sp = /* html */`
-    <sp-menu
+    <div class="column category" data-col=0></div>
+    <div class="column subcategory" data-col=1></div>
+    <div class="column subcategory" data-col=2></div>
+    <div class="column subcategory" data-col=3></div>
+    <div class="column subcategory" data-col=4></div>
+    <div class="column subcategory" data-col=5></div>  
+  <sp-menu
       label="Select tags"
       selects="multiple"
     >
@@ -156,6 +254,6 @@ export async function decorate(container, data, query) {
 }
 
 export default {
-  title: 'Tags Advance',
+  title: 'Tags2',
   searchEnabled: true,
 };
