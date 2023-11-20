@@ -21,7 +21,7 @@ sp-menu {
 
 .column {
    min-width: 250px;
-   min-height: 100vh;
+   min-height: 60vh;
 }
 
 .column>ul {

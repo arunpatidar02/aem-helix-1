@@ -115,6 +115,9 @@ function addEventListeners(container, dataObj, element) {
       }
       createNavigation(container, dataObj, parentKey, nextColEle);
       curColEle.classList.add('expanded');
+      // remove existing active class from sibling
+      const siblingColEle = container.querySelector(`.column[data-col="${curColNum}"] li.active`);
+      siblingColEle?.classList.remove('active');
     }
     parentElement.classList.toggle('active');
   });
