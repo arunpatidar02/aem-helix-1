@@ -58,26 +58,26 @@ border-right: 1px solid gray;
     justify-content: space-between;
 }
 
-.column .tag-item-wrapper {
+.tag-item-wrapper {
     display: flex;
     align-items: center;
 }
 
-.column .tag-item-wrapper sp-menu-item{
+.tag-item-wrapper sp-menu-item{
     width: 100%;
 }
 
-.column .tag-item-wrapper ion-icon {
+.tag-item-wrapper ion-icon {
     margin-inline: 0.5rem;
     font-size: 1.25rem;
 }
 
 
-.column .tag-item-wrapper:has(sp-menu-item[aria-checked="true"]) ion-icon[name="pricetag-outline"]{
+.tag-item-wrapper:has(sp-menu-item[aria-checked="true"]) ion-icon[name="pricetag-outline"]{
     display: none;
 }
 
-.column .tag-item-wrapper:has(sp-menu-item[aria-checked="false"]) ion-icon[name="pricetag"]{
+.tag-item-wrapper:has(sp-menu-item[aria-checked="false"]) ion-icon[name="pricetag"]{
     display: none;
 }
 

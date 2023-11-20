@@ -178,7 +178,7 @@ export async function decorate(container, data, query) {
         </div>`;
       });
     } else {
-      const parentElement = spContainer.querySelector('.category');
+      const parentElement = container.querySelector('.category');
       createNavigation(container, dataObj, null, parentElement);
     }
     return resultString;
@@ -208,6 +208,8 @@ export async function decorate(container, data, query) {
     );
   };
 
+  const menuItems = createMenuItems();
+
   const sp = /* html */`
   <div class="footer">
       <sp-icon-info slot="icon"></sp-icon-info>
@@ -217,6 +219,9 @@ export async function decorate(container, data, query) {
       </sp-action-button>
     </div>
     <sp-divider size="s"></sp-divider>
+    <div class="search-result-column">
+      <sp-menu label="Select tags" selects="multiple">${menuItems}</sp-menu>
+    </div>
     <div class="menu-columns">
       <div class="column category" data-col=0></div>
       <div class="column subcategory" data-col=1></div>
@@ -225,17 +230,13 @@ export async function decorate(container, data, query) {
       <div class="column subcategory" data-col=4></div>
       <div class="column subcategory" data-col=5></div>
     </div>
+    
   `;
 
   const spContainer = document.createElement('div');
   spContainer.classList.add('container');
   spContainer.innerHTML = sp;
   container.append(spContainer);
-
-  const menuItems = createMenuItems();
-
-  const spMenu = spContainer.querySelector('sp-menu');
-  spMenu.innerHTML = menuItems;
 
   const menuItemElements = spContainer.querySelectorAll('sp-menu-item');
   menuItemElements.forEach((item) => {
