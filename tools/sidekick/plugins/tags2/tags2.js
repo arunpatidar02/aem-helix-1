@@ -68,19 +68,7 @@ function findObjectByKey(json, keyToFind) {
   return result;
 }
 
-function getSubCategoryColumnElement(columnNumber) {
-  return document.querySelector(`.subcategory[data-col="${columnNumber}"]`);
-}
-
-function collapseColumns(curColNum) {
-  for (let i = 5; i > curColNum; i--) {
-    const colEle = getSubCategoryColumnElement(i);
-    colEle.classList.remove('expanded');
-    removeColumnContent(colEle);
-  }
-}
-
-function createNavigation(dataObj, parentKey, parentElement) {
+function createNavigation(container, dataObj, parentKey, parentElement) {
   const ul = document.createElement('ul');
   parentElement?.appendChild(ul);
   const elementJson = parentKey ? findObjectByKey(dataObj, parentKey) : dataObj;
@@ -98,33 +86,36 @@ function createNavigation(dataObj, parentKey, parentElement) {
     li.innerHTML = tagItem;
 
     if (objKeys.length > 0) {
-      const icon = document.createElement('sp-icon-chevron-right');
+      const icon = document.createElement('span');
       li.appendChild(icon);
-      addEventListeners(dataObj, icon);
+      addEventListeners(container, dataObj, icon);
     }
 
     ul.appendChild(li);
   }
 }
 
-function addEventListeners(dataObj, element) {
+function addEventListeners(container, dataObj, element) {
   element.addEventListener('click', () => {
     const { parentElement } = element;
     const isActive = parentElement.classList.contains('active');
-    const parentKey = parentElement.querySelector('.item').textContent.trim();
+    const parentKey = parentElement.querySelector('sp-menu-item').value.trim();
     const curColEle = parentElement.closest('.column');
     const curColNum = Number(curColEle.dataset.col);
-    const nextColEle = getSubCategoryColumnElement(curColNum + 1);
+    const nextColEle = container.querySelector(`.subcategory[data-col="${curColNum + 1}"]`);
 
     if (isActive) {
       removeColumnContent(nextColEle);
       curColEle.classList.remove('expanded');
     } else {
-      collapseColumns(curColNum);
-      createNavigation(dataObj, parentKey, nextColEle);
+      for (let i = 5; i > curColNum; i--) {
+        const colEle = container.querySelector(`.subcategory[data-col="${i}"]`);
+        colEle.classList.remove('expanded');
+        removeColumnContent(colEle);
+      }
+      createNavigation(container, dataObj, parentKey, nextColEle);
       curColEle.classList.add('expanded');
     }
-
     parentElement.classList.toggle('active');
   });
 }
@@ -168,7 +159,6 @@ export async function decorate(container, data, query) {
 
   // const dataObj = data;
   const dataObj = convertFlatArrayToHierarchy(data);
-  console.log(dataObj);
   removeUndefined(dataObj);
 
   const createMenuItems = () => {
@@ -185,8 +175,8 @@ export async function decorate(container, data, query) {
         </div>`;
       });
     } else {
-      const parentElement = document.querySelector('.category');
-      createNavigation(dataObj, null, parentElement);
+      const parentElement = spContainer.querySelector('.category');
+      createNavigation(container, dataObj, null, parentElement);
     }
     return resultString;
   };
@@ -215,27 +205,22 @@ export async function decorate(container, data, query) {
     );
   };
 
-  const menuItems = createMenuItems();
   const sp = /* html */`
-    <div class="column category" data-col=0></div>
-    <div class="column subcategory" data-col=1></div>
-    <div class="column subcategory" data-col=2></div>
-    <div class="column subcategory" data-col=3></div>
-    <div class="column subcategory" data-col=4></div>
-    <div class="column subcategory" data-col=5></div>  
-  <sp-menu
-      label="Select tags"
-      selects="multiple"
-    >
-      ${menuItems}
-    </sp-menu>
-    <sp-divider size="s"></sp-divider>
-    <div class="footer">
-    <sp-icon-info slot="icon"></sp-icon-info>
+  <div class="footer">
+      <sp-icon-info slot="icon"></sp-icon-info>
       <span class="selectedLabel">${getSelectedLabel()}</span>
       <sp-action-button label="Copy" quiet>
         <sp-icon-copy slot="icon"></sp-icon-copy>
       </sp-action-button>
+    </div>
+    <sp-divider size="s"></sp-divider>
+    <div class="menu-columns">
+      <div class="column category" data-col=0></div>
+      <div class="column subcategory" data-col=1></div>
+      <div class="column subcategory" data-col=2></div>
+      <div class="column subcategory" data-col=3></div>
+      <div class="column subcategory" data-col=4></div>
+      <div class="column subcategory" data-col=5></div>
     </div>
   `;
 
@@ -243,6 +228,11 @@ export async function decorate(container, data, query) {
   spContainer.classList.add('container');
   spContainer.innerHTML = sp;
   container.append(spContainer);
+
+  const menuItems = createMenuItems();
+
+  const spMenu = spContainer.querySelector('sp-menu');
+  spMenu.innerHTML = menuItems;
 
   const menuItemElements = spContainer.querySelectorAll('sp-menu-item');
   menuItemElements.forEach((item) => {

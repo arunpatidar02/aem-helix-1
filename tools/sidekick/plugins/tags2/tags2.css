@@ -3,7 +3,7 @@
 }
 
 .container {
-    width: 60%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -12,6 +12,41 @@
 
 sp-menu {
     height: 100%;
+}
+
+.menu-columns {
+    display: flex;
+    justify-content:left
+}
+
+.column {
+   min-width: 250px;
+   min-height: 100vh;
+}
+
+.column>ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  
+    }
+
+.column>ul>li{
+    display: flex;
+    justify-content: space-between;
+}
+
+.column>ul>li.active{
+   font-weight: 600;
+}
+
+.column>ul>li>span::after{
+   content: '>';
+   padding: 1rem;
+}
+
+.column.expanded{
+border-right: 1px solid gray;
 }
 
 .footer {
@@ -23,26 +58,26 @@ sp-menu {
     justify-content: space-between;
 }
 
-.container .tag-item-wrapper {
+.column .tag-item-wrapper {
     display: flex;
     align-items: center;
 }
 
-.container .tag-item-wrapper sp-menu-item{
+.column .tag-item-wrapper sp-menu-item{
     width: 100%;
 }
 
-.container .tag-item-wrapper ion-icon {
+.column .tag-item-wrapper ion-icon {
     margin-inline: 0.5rem;
     font-size: 1.25rem;
 }
 
 
-.container .tag-item-wrapper:has(sp-menu-item[aria-checked="true"]) ion-icon[name="pricetag-outline"]{
+.column .tag-item-wrapper:has(sp-menu-item[aria-checked="true"]) ion-icon[name="pricetag-outline"]{
     display: none;
 }
 
-.container .tag-item-wrapper:has(sp-menu-item[aria-checked="false"]) ion-icon[name="pricetag"]{
+.column .tag-item-wrapper:has(sp-menu-item[aria-checked="false"]) ion-icon[name="pricetag"]{
     display: none;
 }
 
