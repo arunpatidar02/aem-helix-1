@@ -68,61 +68,6 @@ function findObjectByKey(json, keyToFind) {
   return result;
 }
 
-function createNavigation(container, dataObj, parentKey, parentElement) {
-  const ul = document.createElement('ul');
-  parentElement?.appendChild(ul);
-  const elementJson = parentKey ? findObjectByKey(dataObj, parentKey) : dataObj;
-
-  for (const key in elementJson) {
-    const obj = elementJson[key];
-    const objKeys = Object.keys(obj);
-    const li = document.createElement('li');
-    const tagItem = `<div class="tag-item-wrapper">
-          <ion-icon name="pricetag-outline"></ion-icon>
-          <ion-icon name="pricetag"></ion-icon>
-          <sp-menu-item class="item" value="${key}"}>${key}</sp-menu-item>
-        </div>`;
-
-    li.innerHTML = tagItem;
-
-    if (objKeys.length > 0) {
-      const icon = document.createElement('span');
-      li.appendChild(icon);
-      addEventListeners(container, dataObj, icon);
-    }
-
-    ul.appendChild(li);
-  }
-}
-
-function addEventListeners(container, dataObj, element) {
-  element.addEventListener('click', () => {
-    const { parentElement } = element;
-    const isActive = parentElement.classList.contains('active');
-    const parentKey = parentElement.querySelector('sp-menu-item').value.trim();
-    const curColEle = parentElement.closest('.column');
-    const curColNum = Number(curColEle.dataset.col);
-    const nextColEle = container.querySelector(`.subcategory[data-col="${curColNum + 1}"]`);
-
-    if (isActive) {
-      removeColumnContent(nextColEle);
-      curColEle.classList.remove('expanded');
-    } else {
-      for (let i = 5; i > curColNum; i--) {
-        const colEle = container.querySelector(`.subcategory[data-col="${i}"]`);
-        colEle.classList.remove('expanded');
-        removeColumnContent(colEle);
-      }
-      createNavigation(container, dataObj, parentKey, nextColEle);
-      curColEle.classList.add('expanded');
-      // remove existing active class from sibling
-      const siblingColEle = container.querySelector(`.column[data-col="${curColNum}"] li.active`);
-      siblingColEle?.classList.remove('active');
-    }
-    parentElement.classList.toggle('active');
-  });
-}
-
 function convertFlatArrayToHierarchy(flatArray) {
   const hierarchy = {};
   let stack = [];
@@ -167,25 +112,34 @@ export async function decorate(container, data, query) {
   const createMenuItems = () => {
     const filteredTags = getFilteredTags(dataObj, query);
     let resultString = '';
-    if (query) {
-      filteredTags.forEach((tag) => {
-        const isSelected = selectedTags.includes(tag);
-        resultString += `
-        <div class="tag-item-wrapper">
+    filteredTags.forEach((tag) => {
+      const isSelected = selectedTags.includes(tag);
+      resultString += `
+        <sp-menu-item class="tag-item-wrapper">
           <ion-icon name="pricetag-outline"></ion-icon>
           <ion-icon name="pricetag"></ion-icon>
-          <sp-menu-item value="${tag}" ${isSelected ? 'selected' : ''}>${tag}</sp-menu-item>
-        </div>`;
-      });
-    } else {
-      const parentElement = container.querySelector('.category');
-      createNavigation(container, dataObj, null, parentElement);
-    }
+          <span value="${tag}" ${isSelected ? 'selected' : ''}>${tag}</span>
+        </sp-menu-item>`;
+    });
+
     return resultString;
   };
 
+  const createColumnMenu = () => {
+    if (query) {
+      return;
+    }
+    const parentElement = container.querySelector('.category');
+    createNavigation(null, parentElement);
+  };
+
   const handleMenuItemClick = (e) => {
-    const { value, selected } = e.target;
+    let ele = e.target;
+    const tagName = ele.tagName.toLowerCase();
+    if (tagName !== 'sp-menu-item') {
+      ele = ele.parentElement;
+    }
+    const { value, selected } = ele;
     if (selected) {
       const index = selectedTags.indexOf(value);
       if (index > -1) {
@@ -208,9 +162,7 @@ export async function decorate(container, data, query) {
     );
   };
 
-  const menuItems = createMenuItems();
-
-  const sp = /* html */`
+  let sp = /* html */`
   <div class="footer">
       <sp-icon-info slot="icon"></sp-icon-info>
       <span class="selectedLabel">${getSelectedLabel()}</span>
@@ -218,10 +170,14 @@ export async function decorate(container, data, query) {
         <sp-icon-copy slot="icon"></sp-icon-copy>
       </sp-action-button>
     </div>
-    <sp-divider size="s"></sp-divider>
-    <div class="search-result-column">
-      <sp-menu label="Select tags" selects="multiple">${menuItems}</sp-menu>
-    </div>
+    <sp-divider size="s"></sp-divider>`;
+  if (query) {
+    const menuItems = createMenuItems();
+    sp += `<div class="search-result-column">
+    <sp-menu label="Select tags" selects="multiple">${menuItems}</sp-menu>
+    </div>`;
+  } else {
+    sp += `
     <div class="menu-columns">
       <div class="column category" data-col=0></div>
       <div class="column subcategory" data-col=1></div>
@@ -229,14 +185,73 @@ export async function decorate(container, data, query) {
       <div class="column subcategory" data-col=3></div>
       <div class="column subcategory" data-col=4></div>
       <div class="column subcategory" data-col=5></div>
-    </div>
-    
-  `;
+    </div>`;
+  }
 
   const spContainer = document.createElement('div');
   spContainer.classList.add('container');
   spContainer.innerHTML = sp;
   container.append(spContainer);
+
+  createColumnMenu();
+
+  function createNavigation(parentKey, parentElement) {
+    const spMenu = document.createElement('sp-menu');
+    parentElement?.appendChild(spMenu);
+    const elementJson = parentKey ? findObjectByKey(dataObj, parentKey) : dataObj;
+
+    for (const key in elementJson) {
+      const obj = elementJson[key];
+      const objKeys = Object.keys(obj);
+      const spMenuItem = document.createElement('sp-menu-item');
+      const tagItem = `
+      <ion-icon name="pricetag-outline"></ion-icon>
+      <ion-icon name="pricetag"></ion-icon>
+      <span value="${key}">${key}</span>`;
+
+      spMenuItem.innerHTML = tagItem;
+      if (!parentKey) {
+        spMenuItem.addEventListener('click', handleMenuItemClick);
+      }
+
+      if (objKeys.length > 0) {
+        const icon = document.createElement('span');
+        icon.className = 'chevron-right';
+        spMenuItem.appendChild(icon);
+        addEventListeners(icon);
+      }
+
+      spMenu.appendChild(spMenuItem);
+    }
+  }
+
+  function addEventListeners(element) {
+    element.addEventListener('click', () => {
+      const { parentElement } = element;
+      const isActive = parentElement.classList.contains('active');
+      const parentKey = parentElement.querySelector('sp-menu-item').value.trim();
+      const curColEle = parentElement.closest('.column');
+      const curColNum = Number(curColEle.dataset.col);
+      const nextColEle = container.querySelector(`.subcategory[data-col="${curColNum + 1}"]`);
+
+      if (isActive) {
+        removeColumnContent(nextColEle);
+        curColEle.classList.remove('expanded');
+      } else {
+        for (let i = 5; i > curColNum; i--) {
+          const colEle = container.querySelector(`.subcategory[data-col="${i}"]`);
+          colEle.classList.remove('expanded');
+          removeColumnContent(colEle);
+        }
+        createNavigation(parentKey, nextColEle);
+        curColEle.classList.add('expanded');
+        // remove existing active class from sibling
+        const siblingColEle = container.querySelector(`.column[data-col="${curColNum}"] li.active`);
+        siblingColEle?.classList.remove('active');
+      }
+    //  parentElement.classList.toggle('active');
+    });
+  }
 
   const menuItemElements = spContainer.querySelectorAll('sp-menu-item');
   menuItemElements.forEach((item) => {
