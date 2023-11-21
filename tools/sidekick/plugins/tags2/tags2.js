@@ -16,7 +16,7 @@ export async function decorate(container, data, query) {
   const dataObj = UTILS.getJsonObject(data);
 
   const createSearchItems = () => {
-    selectedTags = [];
+    console.log('selectedTags 2', selectedTags);
     const srConatiner = container.querySelector('.search-result-column');
     const filteredTags = UTILS.getFilteredTags(dataObj, query);
 
@@ -24,13 +24,13 @@ export async function decorate(container, data, query) {
     srConatiner?.appendChild(spMenu);
 
     filteredTags.forEach((key) => {
+      const isSelected = selectedTags.includes(key);
       const spMenuItem = document.createElement('li');
       spMenuItem.className = 'column-item';
       const tagItem = document.createElement('p');
       tagItem.className = 'tag-item';
-      tagItem.ariaChecked = 'false';
+      tagItem.ariaChecked = isSelected ? 'true' : 'false';
       tagItem.value = key;
-      tagItem.isSelected = false;
       const tagItemElements = `
         <ion-icon name="pricetag-outline"></ion-icon>
         <ion-icon name="pricetag"></ion-icon>
@@ -47,9 +47,10 @@ export async function decorate(container, data, query) {
   const createColumnMenu = () => {
     if (query) {
       createSearchItems();
+    } else {
+      const parentElement = container.querySelector('.category');
+      createNavigation(null, parentElement);
     }
-    const parentElement = container.querySelector('.category');
-    createNavigation(null, parentElement);
   };
 
   const handleMenuItemClick = (e) => {
@@ -135,7 +136,11 @@ export async function decorate(container, data, query) {
 
   createColumnMenu();
 
+  const selectedLabel = container.querySelector('.selectedLabel');
+  selectedLabel.textContent = UTILS.getSelectedLabel(selectedTags);
+
   function createNavigation(parentKey, parentElement) {
+    console.log('selectedTags 3', selectedTags);
     selectedTags = [];
     const spMenu = document.createElement('ul');
     parentElement?.appendChild(spMenu);
@@ -151,7 +156,6 @@ export async function decorate(container, data, query) {
       tagItem.className = 'tag-item';
       tagItem.ariaChecked = 'false';
       tagItem.value = key;
-      tagItem.isSelected = false;
       const tagItemElements = `
         <ion-icon name="pricetag-outline"></ion-icon>
         <ion-icon name="pricetag"></ion-icon>
@@ -170,16 +174,11 @@ export async function decorate(container, data, query) {
 
       spMenu.appendChild(spMenuItem);
     }
-
-    const selectedLabel = container.querySelector('.selectedLabel');
-    selectedLabel.textContent = UTILS.getSelectedLabel(selectedTags);
   }
 
   function handleMenuExpand(element) {
     element.addEventListener('click', () => {
       selectedTags = [];
-      const selectedLabel = container.querySelector('.selectedLabel');
-      selectedLabel.textContent = UTILS.getSelectedLabel(selectedTags);
       const { parentElement } = element;
       const isActive = parentElement.classList.contains('active');
       const parentKey = parentElement.querySelector('.tag-item').value.trim();
