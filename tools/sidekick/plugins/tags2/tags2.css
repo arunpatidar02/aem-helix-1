@@ -2,6 +2,12 @@
     --swc-menu-width: 100%;
 }
 
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    }
+
 .container {
     width: 100%;
     height: 100%;
@@ -25,16 +31,15 @@ sp-menu {
 }
 
 
-.column > sp-menu > sp-menu-item{
+.column > ul > li{
     display: flex;
-    justify-content: space-between;
 }
 
-.column > sp-menu > sp-menu-item.active{
+.column > ul > li.active{
    font-weight: 600;
 }
 
-.column > sp-menu > sp-menu-item > span.chevron-right::after{
+.column > ul > li > span.chevron-right::after{
    content: '>';
    padding: 1rem;
 }
@@ -68,6 +73,14 @@ sp-menu-item[aria-checked="true"] ion-icon[name="pricetag-outline"]{
 }
 
 sp-menu-item[aria-checked="false"] ion-icon[name="pricetag"]{
+    display: none;
+}
+
+ul>li>p[aria-checked="true"] ion-icon[name="pricetag-outline"]{
+    display: none;
+}
+
+ul>li>p[aria-checked="false"] ion-icon[name="pricetag"]{
     display: none;
 }
 
