@@ -53,26 +53,6 @@ export async function decorate(container, data, query) {
     }
   };
 
-  const handleMenuItemClick = (e) => {
-    let ele = e.target;
-    const tagName = ele.tagName.toLowerCase();
-    if (tagName !== 'p') {
-      ele = ele.parentElement;
-    }
-    const { value, selected } = ele;
-    if (selected) {
-      const index = selectedTags.indexOf(value);
-      if (index > -1) {
-        selectedTags.splice(index, 1);
-      }
-    } else {
-      selectedTags.push(value);
-    }
-
-    const selectedLabel = container.querySelector('.selectedLabel');
-    selectedLabel.innerHTML = UTILS.getSelectedLabel(selectedTags);
-  };
-
   const handleColumnItemClick = (e) => {
     let ele = e.target;
     const tagName = ele.tagName.toLowerCase();
