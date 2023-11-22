@@ -130,17 +130,6 @@ function getJsonObject(flatArray) {
 }
 
 /**
-   * Generates a label indicating the number of selected tags.
-   *
-   * @param {Array} selectedTags - The array of selected tags.
-   * @returns {string} - The generated label html.
-   */
-function getSelectedLabel(selectedTags) {
-  const tagCount = selectedTags.length;
-  return tagCount > 0 ? `<span>${tagCount}</span> tag${tagCount !== 1 ? 's' : ''} selected` : 'No tags selected';
-}
-
-/**
    * Removes the content of a column element.
    *
    * @param {HTMLElement} colEle - The column element to clear.
@@ -156,6 +145,5 @@ export default {
   getJsonObject,
   getFilteredTags,
   findObjectByKey,
-  getSelectedLabel,
   removeColumnContent,
 };

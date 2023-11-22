@@ -6,6 +6,17 @@ import UTILS from './utils.js';
 
 let selectedTags = [];
 
+/**
+   * Generates a label indicating the number of selected tags.
+   *
+   * @param {Array} selectedTags - The array of selected tags.
+   * @returns {string} - The generated label html.
+   */
+function getSelectedLabel() {
+  const tagCount = selectedTags.length;
+  return tagCount > 0 ? `<span>${tagCount}</span> tag${tagCount !== 1 ? 's' : ''} selected` : 'No tags selected';
+}
+
 export async function decorate(container, data, query) {
   if (!data) {
     // eslint-disable-next-line no-console
@@ -19,28 +30,11 @@ export async function decorate(container, data, query) {
     const srConatiner = container.querySelector('.search-result-column');
     const filteredTags = UTILS.getFilteredTags(dataObj, query);
 
-    const spMenu = document.createElement('ul');
-    srConatiner?.appendChild(spMenu);
+    const list = document.createElement('ul');
+    srConatiner?.appendChild(list);
 
     filteredTags.forEach((key) => {
-      const isSelected = selectedTags.includes(key);
-      const spMenuItem = document.createElement('li');
-      spMenuItem.className = 'column-item';
-      const tagItem = document.createElement('p');
-      tagItem.className = 'tag-item';
-      tagItem.ariaChecked = isSelected ? 'true' : 'false';
-      tagItem.value = key;
-      const tagItemElements = `
-      <img class="icon-img tag" src="/tools/sidekick/plugins/tags2/icons/tag.png">
-      <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags2/icons/tag-filled.png">
-      <span value="${key}">${key}</span>
-      <img class="icon-img checked" src="/tools/sidekick/plugins/tags2/icons/checked.png">
-      `;
-      tagItem.innerHTML = tagItemElements;
-      spMenuItem.appendChild(tagItem);
-      tagItem.addEventListener('click', handleColumnItemClick);
-
-      spMenu.appendChild(spMenuItem);
+      createTagItem(key, list, false);
     });
   };
 
@@ -74,7 +68,7 @@ export async function decorate(container, data, query) {
     }
 
     const selectedLabel = container.querySelector('.selectedLabel');
-    selectedLabel.innerHTML = UTILS.getSelectedLabel(selectedTags);
+    selectedLabel.innerHTML = getSelectedLabel(selectedTags);
   };
 
   const handleCopyButtonClick = () => {
@@ -88,7 +82,7 @@ export async function decorate(container, data, query) {
 
   let sp = /* html */`
   <div class="footer">
-      <span class="selectedLabel">${UTILS.getSelectedLabel(selectedTags)}</span>
+      <span class="selectedLabel">${getSelectedLabel(selectedTags)}</span>
       <p class="copy-action">
         <span>Copy</span>
         <img class="icon-img copy" src="/tools/sidekick/plugins/tags2/icons/copy.png">
@@ -117,48 +111,54 @@ export async function decorate(container, data, query) {
   createColumnMenu();
 
   const selectedLabel = container.querySelector('.selectedLabel');
-  selectedLabel.innerHTML = UTILS.getSelectedLabel(selectedTags);
+  selectedLabel.innerHTML = getSelectedLabel(selectedTags);
 
   function createNavigation(parentKey, parentElement) {
     selectedTags = [];
-    const spMenu = document.createElement('ul');
-    parentElement?.appendChild(spMenu);
+    const list = document.createElement('ul');
+    parentElement?.appendChild(list);
     const elementJson = parentKey ? UTILS.findObjectByKey(dataObj, parentKey) : dataObj;
 
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const key in elementJson) {
       const obj = elementJson[key];
       const objKeys = Object.keys(obj);
-      const spMenuItem = document.createElement('li');
-      spMenuItem.className = 'column-item';
-      const tagItem = document.createElement('p');
-      tagItem.className = 'tag-item';
-      tagItem.ariaChecked = 'false';
-      tagItem.value = key;
-      const tagItemElements = `
-        <img class="icon-img tag" src="/tools/sidekick/plugins/tags2/icons/tag.png">
-        <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags2/icons/tag-filled.png">
-        <span value="${key}">${key}</span>
-        <img class="icon-img checked" src="/tools/sidekick/plugins/tags2/icons/checked.png">
-      `;
-      tagItem.innerHTML = tagItemElements;
-      spMenuItem.appendChild(tagItem);
-      tagItem.addEventListener('click', handleColumnItemClick);
-
-      if (objKeys.length > 0) {
-        const iconItem = document.createElement('p');
-        iconItem.className = 'icon-item';
-        const icon = document.createElement('img');
-        icon.className = 'icon-img right-chevron';
-        icon.src = '/tools/sidekick/plugins/tags2/icons/right-chevron.png';
-        iconItem.appendChild(icon);
-        spMenuItem.appendChild(iconItem);
-        handleMenuExpand(iconItem);
-      }
-
-      spMenu.appendChild(spMenuItem);
+      createTagItem(key, list, objKeys.length > 0);
     }
   }
+
+  function createTagItem(tag, list, isObject) {
+    const isSelected = selectedTags.includes(tag);
+    const listItem = document.createElement('li');
+    listItem.className = 'column-item';
+    const tagItem = document.createElement('p');
+    tagItem.className = 'tag-item';
+    tagItem.ariaChecked = isSelected ? 'true' : 'false';
+    tagItem.value = tag;
+    const tagItemElements = `
+        <img class="icon-img tag" src="/tools/sidekick/plugins/tags2/icons/tag.png">
+        <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags2/icons/tag-filled.png">
+        <span value="${tag}">${tag}</span>
+        <img class="icon-img checked" src="/tools/sidekick/plugins/tags2/icons/checked.png">
+        `;
+    tagItem.innerHTML = tagItemElements;
+    listItem.appendChild(tagItem);
+    tagItem.addEventListener('click', handleColumnItemClick);
+  
+    if (isObject) {
+      const iconItem = document.createElement('p');
+      iconItem.className = 'icon-item';
+      const icon = document.createElement('img');
+      icon.className = 'icon-img right-chevron';
+      icon.src = '/tools/sidekick/plugins/tags2/icons/right-chevron.png';
+      iconItem.appendChild(icon);
+      listItem.appendChild(iconItem);
+      handleMenuExpand(iconItem);
+    }
+  
+    list.appendChild(listItem);
+  }
+  
 
   function handleMenuExpand(element) {
     element.addEventListener('click', () => {
@@ -201,3 +201,4 @@ export default {
   title: 'Tags2',
   searchEnabled: true,
 };
+
