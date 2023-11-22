@@ -1,11 +1,26 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
+
+/**
+ * Filters tags in the given data based on a query.
+ *
+ * @param {Object} data - The data to filter.
+ * @param {string} query - The query to filter by.
+ * @returns {Array} - An array containing filtered tags.
+ */
 function getFilteredTags(data, query) {
   if (!query) {
     return data;
   }
+
   const filteredObj = [];
+
+  /**
+     * Recursively filters tags in an object.
+     *
+     * @param {Object} obj - The object to filter.
+     */
   function filterRecursive(obj) {
     for (const key in obj) {
       if (key.toLowerCase().includes(query.toLowerCase())) {
@@ -22,20 +37,37 @@ function getFilteredTags(data, query) {
   return filteredObj;
 }
 
+/**
+   * Removes undefined properties/objoect from an parent object.
+   *
+   * @param {Object} obj - The object from which to remove undefined properties.
+   */
 function removeUndefined(obj) {
   for (const key in obj) {
     if (key === 'undefined') {
       delete obj[key];
     } else if (typeof obj[key] === 'object') {
-      // Recursively check nested objects
       removeUndefined(obj[key]);
     }
   }
 }
 
+/**
+   * Finds an object in a JSON structure based on a specified key.
+   *
+   * @param {Object} json - The JSON object to search.
+   * @param {string} keyToFind - The key to search for.
+   * @returns {Object|null} - The found object or null if not found.
+   */
 function findObjectByKey(json, keyToFind) {
   let result = null;
 
+  /**
+     * Recursively searches for an object in a JSON structure.
+     *
+     * @param {Object} obj - The object to search.
+     * @param {string} key - The key to find.
+     */
   function searchObject(obj, key) {
     for (const currentKey in obj) {
       if (currentKey === key) {
@@ -51,6 +83,12 @@ function findObjectByKey(json, keyToFind) {
   return result;
 }
 
+/**
+   * Converts a flat array to a hierarchical JSON structure.
+   *
+   * @param {Array} flatArray - The flat array to convert.
+   * @returns {Object} - The hierarchical JSON structure.
+   */
 function convertFlatArrayToHierarchy(flatArray) {
   const hierarchy = {};
   let stack = [];
@@ -63,7 +101,6 @@ function convertFlatArrayToHierarchy(flatArray) {
       const value = item[key];
 
       if (value !== '') {
-        // If the value is not empty, add it to the current level or at category level
         if (i === 0) {
           stack = [];
         }
@@ -71,7 +108,6 @@ function convertFlatArrayToHierarchy(flatArray) {
         currentLevel = currentLevel[value];
         stack[i - 1] = value;
       } else {
-        // If the value is empty, use the previous non-empty value
         currentLevel[stack[i - 1]] = currentLevel[stack[i - 1]] || {};
         currentLevel = currentLevel[stack[i - 1]];
       }
@@ -81,16 +117,34 @@ function convertFlatArrayToHierarchy(flatArray) {
   return hierarchy;
 }
 
+/**
+   * Gets a hierarchical JSON object from a flat array.
+   *
+   * @param {Array} flatArray - The flat array to convert.
+   * @returns {Object} - The hierarchical JSON structure.
+   */
 function getJsonObject(flatArray) {
   const hierarchy = convertFlatArrayToHierarchy(flatArray);
   removeUndefined(hierarchy);
   return hierarchy;
 }
 
+/**
+   * Generates a label indicating the number of selected tags.
+   *
+   * @param {Array} selectedTags - The array of selected tags.
+   * @returns {string} - The generated label html.
+   */
 function getSelectedLabel(selectedTags) {
-  return selectedTags.length > 0 ? `<span>${selectedTags.length}</span> tag${selectedTags.length > 1 ? 's' : ''} selected` : 'No tags selected';
+  const tagCount = selectedTags.length;
+  return tagCount > 0 ? `<span>${tagCount}</span> tag${tagCount !== 1 ? 's' : ''} selected` : 'No tags selected';
 }
 
+/**
+   * Removes the content of a column element.
+   *
+   * @param {HTMLElement} colEle - The column element to clear.
+   */
 function removeColumnContent(colEle) {
   const list = colEle.querySelector('ul');
   if (list) {
