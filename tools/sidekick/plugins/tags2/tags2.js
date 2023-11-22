@@ -16,7 +16,6 @@ export async function decorate(container, data, query) {
   const dataObj = UTILS.getJsonObject(data);
 
   const createSearchItems = () => {
-    console.log('selectedTags 2', selectedTags);
     const srConatiner = container.querySelector('.search-result-column');
     const filteredTags = UTILS.getFilteredTags(dataObj, query);
 
@@ -32,9 +31,10 @@ export async function decorate(container, data, query) {
       tagItem.ariaChecked = isSelected ? 'true' : 'false';
       tagItem.value = key;
       const tagItemElements = `
-        <ion-icon name="pricetag-outline"></ion-icon>
-        <ion-icon name="pricetag"></ion-icon>
-        <span value="${key}">${key}</span>
+      <img class="icon-img tag" src="/tools/sidekick/plugins/tags2/icons/tag.png">
+      <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags2/icons/tag-filled.png">
+      <span value="${key}">${key}</span>
+      <img class="icon-img checked" src="/tools/sidekick/plugins/tags2/icons/checked.png">
       `;
       tagItem.innerHTML = tagItemElements;
       spMenuItem.appendChild(tagItem);
@@ -56,7 +56,7 @@ export async function decorate(container, data, query) {
   const handleMenuItemClick = (e) => {
     let ele = e.target;
     const tagName = ele.tagName.toLowerCase();
-    if (tagName !== 'sp-menu-item') {
+    if (tagName !== 'p') {
       ele = ele.parentElement;
     }
     const { value, selected } = ele;
@@ -70,7 +70,7 @@ export async function decorate(container, data, query) {
     }
 
     const selectedLabel = container.querySelector('.selectedLabel');
-    selectedLabel.textContent = UTILS.getSelectedLabel(selectedTags);
+    selectedLabel.innerHTML = UTILS.getSelectedLabel(selectedTags);
   };
 
   const handleColumnItemClick = (e) => {
@@ -94,7 +94,7 @@ export async function decorate(container, data, query) {
     }
 
     const selectedLabel = container.querySelector('.selectedLabel');
-    selectedLabel.textContent = UTILS.getSelectedLabel(selectedTags);
+    selectedLabel.innerHTML = UTILS.getSelectedLabel(selectedTags);
   };
 
   const handleCopyButtonClick = () => {
@@ -108,11 +108,11 @@ export async function decorate(container, data, query) {
 
   let sp = /* html */`
   <div class="footer">
-      <sp-icon-info slot="icon"></sp-icon-info>
       <span class="selectedLabel">${UTILS.getSelectedLabel(selectedTags)}</span>
-      <sp-action-button label="Copy" quiet>
-        <sp-icon-copy slot="icon"></sp-icon-copy>
-      </sp-action-button>
+      <p class="copy-action">
+        <span>Copy</span>
+        <img class="icon-img copy" src="/tools/sidekick/plugins/tags2/icons/copy.png">
+      </p>
     </div>
     <sp-divider size="s"></sp-divider>`;
   if (query) {
@@ -137,10 +137,9 @@ export async function decorate(container, data, query) {
   createColumnMenu();
 
   const selectedLabel = container.querySelector('.selectedLabel');
-  selectedLabel.textContent = UTILS.getSelectedLabel(selectedTags);
+  selectedLabel.innerHTML = UTILS.getSelectedLabel(selectedTags);
 
   function createNavigation(parentKey, parentElement) {
-    console.log('selectedTags 3', selectedTags);
     selectedTags = [];
     const spMenu = document.createElement('ul');
     parentElement?.appendChild(spMenu);
@@ -157,19 +156,24 @@ export async function decorate(container, data, query) {
       tagItem.ariaChecked = 'false';
       tagItem.value = key;
       const tagItemElements = `
-        <ion-icon name="pricetag-outline"></ion-icon>
-        <ion-icon name="pricetag"></ion-icon>
+        <img class="icon-img tag" src="/tools/sidekick/plugins/tags2/icons/tag.png">
+        <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags2/icons/tag-filled.png">
         <span value="${key}">${key}</span>
+        <img class="icon-img checked" src="/tools/sidekick/plugins/tags2/icons/checked.png">
       `;
       tagItem.innerHTML = tagItemElements;
       spMenuItem.appendChild(tagItem);
       tagItem.addEventListener('click', handleColumnItemClick);
 
       if (objKeys.length > 0) {
-        const icon = document.createElement('span');
-        icon.className = 'chevron-right';
-        spMenuItem.appendChild(icon);
-        handleMenuExpand(icon);
+        const iconItem = document.createElement('p');
+        iconItem.className = 'icon-item';
+        const icon = document.createElement('img');
+        icon.className = 'icon-img right-chevron';
+        icon.src = '/tools/sidekick/plugins/tags2/icons/right-chevron.png';
+        iconItem.appendChild(icon);
+        spMenuItem.appendChild(iconItem);
+        handleMenuExpand(iconItem);
       }
 
       spMenu.appendChild(spMenuItem);
@@ -209,12 +213,7 @@ export async function decorate(container, data, query) {
     });
   }
 
-  const menuItemElements = spContainer.querySelectorAll('sp-menu-item');
-  menuItemElements.forEach((item) => {
-    item.addEventListener('click', handleMenuItemClick);
-  });
-
-  const copyButton = spContainer.querySelector('sp-action-button');
+  const copyButton = spContainer.querySelector('.copy-action');
   copyButton.addEventListener('click', handleCopyButtonClick);
 }
 

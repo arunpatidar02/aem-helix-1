@@ -88,7 +88,7 @@ function getJsonObject(flatArray) {
 }
 
 function getSelectedLabel(selectedTags) {
-  return selectedTags.length > 0 ? `${selectedTags.length} tag${selectedTags.length > 1 ? 's' : ''} selected` : 'No tags selected';
+  return selectedTags.length > 0 ? `<span>${selectedTags.length}</span> tag${selectedTags.length > 1 ? 's' : ''} selected` : 'No tags selected';
 }
 
 function removeColumnContent(colEle) {
