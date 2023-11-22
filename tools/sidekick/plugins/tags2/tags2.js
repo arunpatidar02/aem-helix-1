@@ -26,47 +26,43 @@ export async function decorate(container, data, query) {
 
   const dataObj = UTILS.getJsonObject(data);
 
-  const createSearchItems = () => {
-    const srConatiner = container.querySelector('.search-result-column');
-    const filteredTags = UTILS.getFilteredTags(dataObj, query);
-
-    const list = document.createElement('ul');
-    srConatiner?.appendChild(list);
-
-    filteredTags.forEach((key) => {
-      createTagItem(key, list, false);
-    });
-  };
-
   const createColumnMenu = () => {
     if (query) {
       createSearchItems();
     } else {
-      const parentElement = container.querySelector('.category');
-      createNavigation(null, parentElement);
+      createNavigation(null, container.querySelector('.category'));
     }
   };
 
-  const handleColumnItemClick = (e) => {
-    let ele = e.target;
-    const tagName = ele.tagName.toLowerCase();
-    if (tagName !== 'p') {
-      ele = ele.parentElement;
-    }
+  const createSearchItems = () => {
+    const srConatiner = container.querySelector('.search-result-column');
+    const filteredTags = UTILS.getFilteredTags(dataObj, query);
 
+    const fragment = new DocumentFragment();
+    const list = document.createElement('ul');
+    fragment.appendChild(list);
+    filteredTags.forEach((key) => {
+      createTagItem(key, list, false);
+    });
+    srConatiner?.appendChild(fragment);
+  };
+
+  const handleColumnItemClick = (e) => {
+    const ele = e.target.closest('p');
     const { value } = ele;
     const selected = ele.ariaChecked === 'true';
+
     if (selected) {
-      const index = selectedTags.indexOf(value);
-      if (index > -1) {
-        selectedTags.splice(index, 1);
-      }
-      ele.ariaChecked = 'false';
+      selectedTags.splice(selectedTags.indexOf(value), 1);
     } else {
       selectedTags.push(value);
-      ele.ariaChecked = 'true';
     }
+    ele.ariaChecked = selected ? 'false' : 'true';
 
+    triggerSelectionLabelChange();
+  };
+
+  const triggerSelectionLabelChange = () => {
     const selectedLabel = container.querySelector('.selectedLabel');
     selectedLabel.innerHTML = getSelectedLabel(selectedTags);
   };
@@ -115,8 +111,9 @@ export async function decorate(container, data, query) {
 
   function createNavigation(parentKey, parentElement) {
     selectedTags = [];
+    const fragment = new DocumentFragment();
     const list = document.createElement('ul');
-    parentElement?.appendChild(list);
+    fragment.appendChild(list);
     const elementJson = parentKey ? UTILS.findObjectByKey(dataObj, parentKey) : dataObj;
 
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
@@ -125,6 +122,7 @@ export async function decorate(container, data, query) {
       const objKeys = Object.keys(obj);
       createTagItem(key, list, objKeys.length > 0);
     }
+    parentElement?.appendChild(list);
   }
 
   function createTagItem(tag, list, isObject) {
@@ -144,7 +142,7 @@ export async function decorate(container, data, query) {
     tagItem.innerHTML = tagItemElements;
     listItem.appendChild(tagItem);
     tagItem.addEventListener('click', handleColumnItemClick);
-  
+
     if (isObject) {
       const iconItem = document.createElement('p');
       iconItem.className = 'icon-item';
@@ -155,10 +153,9 @@ export async function decorate(container, data, query) {
       listItem.appendChild(iconItem);
       handleMenuExpand(iconItem);
     }
-  
+
     list.appendChild(listItem);
   }
-  
 
   function handleMenuExpand(element) {
     element.addEventListener('click', () => {
@@ -201,4 +198,3 @@ export default {
   title: 'Tags2',
   searchEnabled: true,
 };
-
