@@ -44,11 +44,21 @@ function getFilteredTags(data, query) {
    */
 function removeUndefined(obj) {
   for (const key in obj) {
-    if (key === 'undefined') {
+    if (key === 'undefined' || key === '') {
       delete obj[key];
     } else if (typeof obj[key] === 'object') {
       removeUndefined(obj[key]);
     }
+  }
+}
+
+function adjustStack(stack, i, value) {
+  const level = stack.length;
+  stack[i - 1] = value;
+
+  while (i < level) {
+    stack[i] = '';
+    i++;
   }
 }
 
@@ -99,17 +109,18 @@ function convertFlatArrayToHierarchy(flatArray) {
     for (let i = 0; i <= 5; i++) {
       const key = i === 0 ? 'tag-category' : `level${i}`;
       const value = item[key];
-
       if (value !== '') {
         if (i === 0) {
           stack = [];
         }
+
         currentLevel[value] = currentLevel[value] || {};
         currentLevel = currentLevel[value];
-        stack[i - 1] = value;
+        adjustStack(stack, i, value);
       } else {
         currentLevel[stack[i - 1]] = currentLevel[stack[i - 1]] || {};
         currentLevel = currentLevel[stack[i - 1]];
+        console.log(stack);
       }
     }
   });
