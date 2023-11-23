@@ -26,7 +26,8 @@ export async function decorate(container, data, query) {
 
   const dataObj = UTILS.getJsonObject(data);
 
-  const createColumnMenu = () => {
+  const createColumnList = () => {
+    changeSelectionLabel();
     if (query) {
       createSearchItems();
     } else {
@@ -59,10 +60,10 @@ export async function decorate(container, data, query) {
     }
     ele.ariaChecked = selected ? 'false' : 'true';
 
-    triggerSelectionLabelChange();
+    changeSelectionLabel();
   };
 
-  const triggerSelectionLabelChange = () => {
+  const changeSelectionLabel = () => {
     const selectedLabel = container.querySelector('.selectedLabel');
     selectedLabel.innerHTML = getSelectedLabel(selectedTags);
   };
@@ -75,87 +76,6 @@ export async function decorate(container, data, query) {
       }),
     );
   };
-
-  let sp = /* html */`
-  <div class="footer">
-      <span class="selectedLabel">${getSelectedLabel(selectedTags)}</span>
-      <p class="copy-action">
-        <span>Copy</span>
-        <img class="icon-img copy" src="/tools/sidekick/plugins/tags2/icons/copy.png">
-      </p>
-    </div>
-    <sp-divider size="s"></sp-divider>`;
-  if (query) {
-    sp += '<div class="search-result-column"></div>';
-  } else {
-    sp += `
-    <div class="menu-columns">
-      <div class="column category" data-col=0></div>
-      <div class="column subcategory" data-col=1></div>
-      <div class="column subcategory" data-col=2></div>
-      <div class="column subcategory" data-col=3></div>
-      <div class="column subcategory" data-col=4></div>
-      <div class="column subcategory" data-col=5></div>
-    </div>`;
-  }
-
-  const spContainer = document.createElement('div');
-  spContainer.classList.add('container');
-  spContainer.innerHTML = sp;
-  container.append(spContainer);
-
-  createColumnMenu();
-
-  const selectedLabel = container.querySelector('.selectedLabel');
-  selectedLabel.innerHTML = getSelectedLabel(selectedTags);
-
-  function createNavigation(parentKey, parentElement) {
-    selectedTags = [];
-    const fragment = new DocumentFragment();
-    const list = document.createElement('ul');
-    fragment.appendChild(list);
-    const elementJson = parentKey ? UTILS.findObjectByKey(dataObj, parentKey) : dataObj;
-
-    // eslint-disable-next-line no-restricted-syntax, guard-for-in
-    for (const key in elementJson) {
-      const obj = elementJson[key];
-      const objKeys = Object.keys(obj);
-      createTagItem(key, list, objKeys.length > 0);
-    }
-    parentElement?.appendChild(list);
-  }
-
-  function createTagItem(tag, list, isObject) {
-    const isSelected = selectedTags.includes(tag);
-    const listItem = document.createElement('li');
-    listItem.className = 'column-item';
-    const tagItem = document.createElement('p');
-    tagItem.className = 'tag-item';
-    tagItem.ariaChecked = isSelected ? 'true' : 'false';
-    tagItem.value = tag;
-    const tagItemElements = `
-        <img class="icon-img tag" src="/tools/sidekick/plugins/tags2/icons/tag.png">
-        <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags2/icons/tag-filled.png">
-        <span value="${tag}">${tag}</span>
-        <img class="icon-img checked" src="/tools/sidekick/plugins/tags2/icons/checked.png">
-        `;
-    tagItem.innerHTML = tagItemElements;
-    listItem.appendChild(tagItem);
-    tagItem.addEventListener('click', handleColumnItemClick);
-
-    if (isObject) {
-      const iconItem = document.createElement('p');
-      iconItem.className = 'icon-item';
-      const icon = document.createElement('img');
-      icon.className = 'icon-img right-chevron';
-      icon.src = '/tools/sidekick/plugins/tags2/icons/right-chevron.png';
-      iconItem.appendChild(icon);
-      listItem.appendChild(iconItem);
-      handleMenuExpand(iconItem);
-    }
-
-    list.appendChild(listItem);
-  }
 
   function handleMenuExpand(element) {
     element.addEventListener('click', () => {
@@ -189,6 +109,90 @@ export async function decorate(container, data, query) {
       parentElement.classList.toggle('active');
     });
   }
+
+  function createNavigation(parentKey, parentElement) {
+    selectedTags = [];
+    const fragment = new DocumentFragment();
+    const list = document.createElement('ul');
+    fragment.appendChild(list);
+    const elementJson = parentKey ? UTILS.findObjectByKey(dataObj, parentKey) : dataObj;
+
+    // eslint-disable-next-line no-restricted-syntax, guard-for-in
+    for (const key in elementJson) {
+      const obj = elementJson[key];
+      const objKeys = Object.keys(obj);
+      createTagItem(key, list, objKeys.length > 0);
+    }
+    parentElement?.appendChild(fragment);
+  }
+
+  function createTagItem(tag, list, isObject) {
+    const isSelected = selectedTags.includes(tag);
+
+    const listItem = document.createElement('li');
+    listItem.className = 'column-item';
+
+    const tagItem = document.createElement('p');
+    tagItem.className = 'tag-item';
+    tagItem.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+    tagItem.value = tag;
+
+    const tagItemElements = `
+    <img class="icon-img tag" src="/tools/sidekick/plugins/tags2/icons/tag.png">
+    <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags2/icons/tag-filled.png">
+    <span value="${tag}">${tag}</span>
+    <img class="icon-img checked" src="/tools/sidekick/plugins/tags2/icons/checked.png">
+`;
+
+    tagItem.innerHTML = tagItemElements;
+    listItem.appendChild(tagItem);
+    tagItem.addEventListener('click', handleColumnItemClick);
+
+    if (isObject) {
+      const iconItem = document.createElement('p');
+      iconItem.className = 'icon-item';
+
+      const icon = document.createElement('img');
+      icon.className = 'icon-img right-chevron';
+      icon.src = '/tools/sidekick/plugins/tags2/icons/right-chevron.png';
+
+      iconItem.appendChild(icon);
+      listItem.appendChild(iconItem);
+      handleMenuExpand(iconItem);
+    }
+
+    list.appendChild(listItem);
+  }
+
+  let sp = /* html */`
+  <div class="footer">
+      <span class="selectedLabel">${getSelectedLabel(selectedTags)}</span>
+      <p class="copy-action">
+        <span>Copy</span>
+        <img class="icon-img copy" src="/tools/sidekick/plugins/tags2/icons/copy.png">
+      </p>
+    </div>
+    <sp-divider size="s"></sp-divider>`;
+  if (query) {
+    sp += '<div class="search-result-column"></div>';
+  } else {
+    sp += `
+    <div class="menu-columns">
+      <div class="column category" data-col=0></div>
+      <div class="column subcategory" data-col=1></div>
+      <div class="column subcategory" data-col=2></div>
+      <div class="column subcategory" data-col=3></div>
+      <div class="column subcategory" data-col=4></div>
+      <div class="column subcategory" data-col=5></div>
+    </div>`;
+  }
+
+  const spContainer = document.createElement('div');
+  spContainer.classList.add('container');
+  spContainer.innerHTML = sp;
+  container.append(spContainer);
+
+  createColumnList();
 
   const copyButton = spContainer.querySelector('.copy-action');
   copyButton.addEventListener('click', handleCopyButtonClick);
