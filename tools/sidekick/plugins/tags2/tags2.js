@@ -27,7 +27,6 @@ export async function decorate(container, data, query) {
   const dataObj = UTILS.getJsonObject(data);
 
   const createColumnList = () => {
-    changeSelectionLabel();
     if (query) {
       createSearchItems();
     } else {
@@ -193,6 +192,7 @@ export async function decorate(container, data, query) {
   container.append(spContainer);
 
   createColumnList();
+  changeSelectionLabel();
 
   const copyButton = spContainer.querySelector('.copy-action');
   copyButton.addEventListener('click', handleCopyButtonClick);
