@@ -38,7 +38,7 @@ function getFilteredTags(data, query) {
 }
 
 /**
-   * Removes undefined properties/objoect from an parent object.
+   * Removes undefined or empty properties/objoect from an parent object.
    *
    * @param {Object} obj - The object from which to remove undefined properties.
    */
@@ -52,13 +52,21 @@ function removeUndefined(obj) {
   }
 }
 
+/**
+ * Adjusts the elements in a stack, setting the value at a specific index (i)
+ * and clearing all elements beyond that index.
+ *
+ * @param {Array} stack - The stack to be adjusted.
+ * @param {number} i - The index at which to set the value in the stack.
+ * @param {any} value - The value to be set at the specified index.
+*/
 function adjustStack(stack, i, value) {
   const level = stack.length;
   stack[i - 1] = value;
 
-  while (i < level) {
-    stack[i] = '';
-    i++;
+  // Clear all elements beyond the specified index using a for loop
+  for (let j = i; j < level; j++) {
+    stack[j] = '';
   }
 }
 
@@ -120,7 +128,6 @@ function convertFlatArrayToHierarchy(flatArray) {
       } else {
         currentLevel[stack[i - 1]] = currentLevel[stack[i - 1]] || {};
         currentLevel = currentLevel[stack[i - 1]];
-        console.log(stack);
       }
     }
   });
