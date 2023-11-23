@@ -90,23 +90,34 @@ export async function decorate(container, data, query) {
         UTILS.removeColumnContent(nextColEle);
         curColEle.classList.remove('expanded');
       } else {
-        for (let i = 5; i > curColNum; i--) {
-          const colEle = container.querySelector(`.subcategory[data-col="${i}"]`);
-          colEle.classList.remove('expanded');
-          UTILS.removeColumnContent(colEle);
-        }
+        closeColumns(curColNum);
         createNavigation(parentKey, nextColEle);
         curColEle.classList.add('expanded');
-        // remove existing active class from sibling
-        const siblingColEle = container.querySelector(`.column[data-col="${curColNum}"] li.active`);
-        siblingColEle?.classList.remove('active');
+        removeActiveClassFromSibling(curColNum);
       }
+      uncheckActiveItems();
+      parentElement.classList.toggle('active');
+    });
+
+    function closeColumns(currentColumn) {
+      for (let i = 5; i > currentColumn; i--) {
+        const colEle = container.querySelector(`.subcategory[data-col="${i}"]`);
+        colEle.classList.remove('expanded');
+        UTILS.removeColumnContent(colEle);
+      }
+    }
+
+    function removeActiveClassFromSibling(currentColumn) {
+      const siblingColEle = container.querySelector(`.column[data-col="${currentColumn}"] li.active`);
+      siblingColEle?.classList.remove('active');
+    }
+
+    function uncheckActiveItems() {
       const checkedItems = container.querySelectorAll('.tag-item[aria-checked="true"]');
       checkedItems.forEach((item) => {
         item.ariaChecked = 'false';
       });
-      parentElement.classList.toggle('active');
-    });
+    }
   }
 
   function createNavigation(parentKey, parentElement) {
