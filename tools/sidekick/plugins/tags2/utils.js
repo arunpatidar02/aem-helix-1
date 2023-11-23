@@ -130,11 +130,23 @@ function getJsonObject(flatArray) {
 }
 
 /**
-   * Removes the content of a column element.
-   *
-   * @param {HTMLElement} colEle - The column element to clear.
-   */
+ * Removes a CSS class from an HTML element.
+ *
+ * @param {HTMLElement} element - The HTML element from which to remove the class.
+ * @param {string} className - The name of the class to be removed.
+ */
+function removeClass(element, className) {
+  element?.classList.remove(className);
+}
+
+/**
+  * Removes the content of a column element
+  * including any 'expanded' class and the inner <ul> element.
+  *
+  * @param {HTMLElement} colEle - The column element to clear.
+  */
 function removeColumnContent(colEle) {
+  removeClass(colEle, 'expanded');
   const list = colEle.querySelector('ul');
   if (list) {
     colEle.removeChild(list);
@@ -146,4 +158,5 @@ export default {
   getFilteredTags,
   findObjectByKey,
   removeColumnContent,
+  removeClass,
 };

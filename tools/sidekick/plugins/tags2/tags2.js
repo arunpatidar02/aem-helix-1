@@ -7,16 +7,22 @@ import UTILS from './utils.js';
 let selectedTags = [];
 
 /**
-   * Generates a label indicating the number of selected tags.
-   *
-   * @param {Array} selectedTags - The array of selected tags.
-   * @returns {string} - The generated label html.
-   */
+ * Generates a label indicating the number of selected tags.
+ *
+ * @returns {string} - The generated label HTML.
+ */
 function getSelectedLabel() {
   const tagCount = selectedTags.length;
   return tagCount > 0 ? `<span>${tagCount}</span> tag${tagCount !== 1 ? 's' : ''} selected` : 'No tags selected';
 }
 
+/**
+ * Decorates the container with tag-related functionality based on provided data.
+ *
+ * @param {HTMLElement} container - The container element to decorate.
+ * @param {Object} data - The data object containing tag information.
+ * @param {string} query - The search query string.
+ */
 export async function decorate(container, data, query) {
   if (!data) {
     // eslint-disable-next-line no-console
@@ -26,6 +32,9 @@ export async function decorate(container, data, query) {
 
   const dataObj = UTILS.getJsonObject(data);
 
+  /**
+   * Creates the tag list in the column based on the search query.
+   */
   const createColumnList = () => {
     if (query) {
       createSearchItems();
@@ -34,6 +43,9 @@ export async function decorate(container, data, query) {
     }
   };
 
+  /**
+   * Creates search items in the search result column based on the filtered tags.
+   */
   const createSearchItems = () => {
     const srConatiner = container.querySelector('.search-result-column');
     const filteredTags = UTILS.getFilteredTags(dataObj, query);
@@ -47,6 +59,12 @@ export async function decorate(container, data, query) {
     srConatiner?.appendChild(fragment);
   };
 
+  /**
+   * Handles the click event on a tag item in the column.
+   * Toggles the selection status and updates the UI.
+   *
+   * @param {Event} e - The click event object.
+   */
   const handleColumnItemClick = (e) => {
     const ele = e.target.closest('p');
     const { value } = ele;
@@ -62,11 +80,18 @@ export async function decorate(container, data, query) {
     changeSelectionLabel();
   };
 
+  /**
+   * Updates the selected tags label in the UI.
+   */
   const changeSelectionLabel = () => {
     const selectedLabel = container.querySelector('.selectedLabel');
     selectedLabel.innerHTML = getSelectedLabel(selectedTags);
   };
 
+  /**
+   * Handles the click event on the copy button.
+   * Copies the selected tags to the clipboard and triggers a toast message.
+   */
   const handleCopyButtonClick = () => {
     navigator.clipboard.writeText(selectedTags.join(', '));
     container.dispatchEvent(
@@ -76,6 +101,11 @@ export async function decorate(container, data, query) {
     );
   };
 
+  /**
+   * Handles the expansion/collapse of the menu column.
+   *
+   * @param {HTMLElement} element - The element representing the expansion control.
+   */
   function handleMenuExpand(element) {
     element.addEventListener('click', () => {
       selectedTags = [];
@@ -88,30 +118,31 @@ export async function decorate(container, data, query) {
 
       if (isActive) {
         UTILS.removeColumnContent(nextColEle);
-        curColEle.classList.remove('expanded');
       } else {
-        closeColumns(curColNum);
+        collapsePreviousColumns(curColNum);
         createNavigation(parentKey, nextColEle);
         curColEle.classList.add('expanded');
-        removeActiveClassFromSibling(curColNum);
+        UTILS.removeClass(container.querySelector(`.column[data-col="${curColNum}"] li.active`), 'active');
       }
       uncheckActiveItems();
       parentElement.classList.toggle('active');
     });
 
-    function closeColumns(currentColumn) {
+    /**
+     * Collapses previous columns up to the specified column number.
+     *
+     * @param {number} currentColumn - The current column number.
+     */
+    function collapsePreviousColumns(currentColumn) {
       for (let i = 5; i > currentColumn; i--) {
         const colEle = container.querySelector(`.subcategory[data-col="${i}"]`);
-        colEle.classList.remove('expanded');
         UTILS.removeColumnContent(colEle);
       }
     }
 
-    function removeActiveClassFromSibling(currentColumn) {
-      const siblingColEle = container.querySelector(`.column[data-col="${currentColumn}"] li.active`);
-      siblingColEle?.classList.remove('active');
-    }
-
+    /**
+     * Unchecks active items in the UI.
+     */
     function uncheckActiveItems() {
       const checkedItems = container.querySelectorAll('.tag-item[aria-checked="true"]');
       checkedItems.forEach((item) => {
@@ -120,6 +151,12 @@ export async function decorate(container, data, query) {
     }
   }
 
+  /**
+   * Creates the navigation column based on the provided parent key and parent element.
+   *
+   * @param {string} parentKey - The parent key for navigation.
+   * @param {HTMLElement} parentElement - The parent element to append the navigation column.
+   */
   function createNavigation(parentKey, parentElement) {
     selectedTags = [];
     const fragment = new DocumentFragment();
@@ -136,6 +173,13 @@ export async function decorate(container, data, query) {
     parentElement?.appendChild(fragment);
   }
 
+  /**
+   * Creates a tag item and appends it to the specified list.
+   *
+   * @param {string} tag - The tag value.
+   * @param {HTMLElement} list - The list element to append the tag item.
+   * @param {boolean} isObject - Indicates if the tag represents an object.
+   */
   function createTagItem(tag, list, isObject) {
     const isSelected = selectedTags.includes(tag);
 
@@ -174,7 +218,8 @@ export async function decorate(container, data, query) {
     list.appendChild(listItem);
   }
 
-  let sp = /* html */`
+  // HTML template for the container
+  let sp = `
   <div class="footer">
       <span class="selectedLabel">${getSelectedLabel(selectedTags)}</span>
       <p class="copy-action">
@@ -197,18 +242,22 @@ export async function decorate(container, data, query) {
     </div>`;
   }
 
+  // Create and append the container element
   const spContainer = document.createElement('div');
   spContainer.classList.add('container');
   spContainer.innerHTML = sp;
   container.append(spContainer);
 
+  // Initialize the column list and update the selected label
   createColumnList();
   changeSelectionLabel();
 
+  // Attach click event to the copy button
   const copyButton = spContainer.querySelector('.copy-action');
   copyButton.addEventListener('click', handleCopyButtonClick);
 }
 
+// Export metadata for the module
 export default {
   title: 'Tags2',
   searchEnabled: true,
