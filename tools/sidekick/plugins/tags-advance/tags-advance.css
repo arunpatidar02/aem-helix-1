@@ -1,0 +1,145 @@
+.container {
+  --primary-bg-color: #ffffff;
+  --border-color: #e9e9e9;
+  --accent-color: #2096f3;
+  --text-color: #0265dd;
+  max-width: 1500px;
+  margin: 0 auto;
+  background-color: var(--primary-bg-color);
+}
+
+.menu-columns {
+  display: flex;
+  justify-content: center;
+  border-bottom: solid 1px var(--border-color);
+  overflow-y: hidden;
+  overflow-x: scroll;
+  height: 85vh;
+}
+
+@media only screen and (max-width: 1500px) {
+  .container {
+    max-width: 100%;
+  }
+
+  .menu-columns {
+    justify-content: flex-start;
+  }
+}
+
+.search-result-column {
+  width: 100%;
+  margin: 0 auto;
+  border-bottom: solid 1px var(--border-color);
+}
+
+.search-result-column > ul {
+  padding-inline: 1rem;
+}
+
+.footer {
+  margin: 0 auto;
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul > li,
+.copy-action {
+  cursor: pointer;
+  line-height: 1rem;
+}
+
+.tag-item,
+.copy-action {
+  display: flex;
+  align-items: center;
+}
+
+.tag-item > span {
+  min-width: 130px;
+}
+
+.search-result-column li {
+  line-height: 2rem;
+}
+
+.column {
+  min-width: 250px;
+  overflow: scroll;
+}
+
+.column > ul > li {
+  display: flex;
+  align-items: center;
+}
+
+.column > ul > li > p {
+  margin: 0;
+  height: 3rem;
+}
+
+.column > ul > li > p.tag-item {
+  min-width: 215px;
+}
+
+.column > ul > li.active {
+  font-weight: 600;
+  background-color: #e9e9e9;
+}
+
+.column:has(ul) {
+  border-right: solid 0.125rem #e9e9e9;
+}
+
+.selectedLabel {
+  min-width: 200px;
+  padding-inline: 2rem;
+}
+
+.selectedLabel > span {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-color: #2096f3;
+  color: #ffffff;
+  border-radius: 50%;
+  padding: 4px;
+  text-align: center;
+}
+
+img.icon-img {
+  height: 18px;
+  width: 18px;
+  padding-inline: 0.5rem;
+}
+
+ul > li > p[aria-checked="true"] .icon-img.tag {
+  display: none;
+}
+
+ul > li > p[aria-checked="false"] .icon-img.tag-fill,
+ul > li > p[aria-checked="false"] .icon-img.checked {
+  display: none;
+}
+
+.icon-img.checked {
+  color: var(--text-color);
+}
+
+.icon-img.tag,
+.icon-img.tag-fill {
+  margin-right: 1rem;
+}
+
+.icon-img.right-chevron {
+  opacity: 0.5;
+  padding-block: 1rem;
+}

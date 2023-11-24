@@ -37,12 +37,17 @@ sp-menu {
     font-size: 1.25rem;
 }
 
+img.icon-img {
+    height: 18px;
+    width: 18px;
+    padding-inline: 0.5rem;
+  }
 
-.container .tag-item-wrapper:has(sp-menu-item[aria-checked="true"]) ion-icon[name="pricetag-outline"]{
+.container .tag-item-wrapper:has(sp-menu-item[aria-checked="true"]) .icon-img.tag{
     display: none;
 }
 
-.container .tag-item-wrapper:has(sp-menu-item[aria-checked="false"]) ion-icon[name="pricetag"]{
+.container .tag-item-wrapper:has(sp-menu-item[aria-checked="false"]) .icon-img.tag-fill{
     display: none;
 }
 

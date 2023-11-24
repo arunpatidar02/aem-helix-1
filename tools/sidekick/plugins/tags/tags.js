@@ -27,8 +27,8 @@ export async function decorate(container, data, query) {
       const isSelected = selectedTags.includes(item.tag);
       return `
       <div class="tag-item-wrapper">
-        <ion-icon name="pricetag-outline"></ion-icon>
-        <ion-icon name="pricetag"></ion-icon>
+        <img class="icon-img tag" src="/tools/sidekick/plugins/tags-advance/icons/tag.png">
+        <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags-advance/icons/tag-filled.png">
         <sp-menu-item value="${item.tag}" ${isSelected ? 'selected' : ''}>${item.tag}</sp-menu-item>
       </div>`;
     }).join('');
