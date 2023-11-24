@@ -4,6 +4,39 @@
 import { PLUGIN_EVENTS } from 'https://www.hlx.live/tools/sidekick/library/events/events.js';
 import UTILS from './utils.js';
 
+const CONST = {
+  PLUGIN_TITLE: 'tags_advance',
+  NO_TAG_MSG: 'No tags selected',
+  NO_DATA: 'Tag sheet is not configured',
+  COPIED_MSG: 'Copied Tags',
+  TRUE: 'true',
+  FALSE: 'false',
+  ARIA_CHECKED: 'aria-checked',
+  ACTIVE: 'active',
+  EXPANDED: 'expanded',
+  CONTAINER: 'container',
+  COLUMN_ITEM: 'column-item',
+  TAG_ITEM: 'tag-item',
+  ICON_ITEM: 'icon-item',
+};
+
+const SELECTOR = {
+  CATEGORY: '.category',
+  SEARCH_TAG_COLUMN: '.search-result-column',
+  DIV: 'div',
+  UL: 'ul',
+  LI: 'li',
+  IMG: 'img',
+  SPAN: 'span',
+  P: 'p',
+  SELECTED_LABEL: '.selectedLabel',
+  TAG_ITEM: `.${CONST.TAG_ITEM}`,
+  COLUMN: '.column',
+  SUBCATEGORY: '.subcategory',
+  COPY_ACTION: '.copy-action',
+  ACTIVE_ITEM: 'li.active',
+};
+
 let selectedTags = [];
 
 /**
@@ -13,7 +46,7 @@ let selectedTags = [];
  */
 function getSelectedLabel() {
   const tagCount = selectedTags.length;
-  return tagCount > 0 ? `<span>${tagCount}</span> tag${tagCount !== 1 ? 's' : ''} selected` : 'No tags selected';
+  return tagCount > 0 ? `<span>${tagCount}</span> tag${tagCount !== 1 ? 's' : ''} selected` : CONST.NO_TAG_MSG;
 }
 
 /**
@@ -26,7 +59,7 @@ function getSelectedLabel() {
 export async function decorate(container, data, query) {
   if (!data) {
     // eslint-disable-next-line no-console
-    console.warn('Tag sheet is not configured');
+    console.warn(CONST.NO_DATA);
     return;
   }
 
@@ -39,7 +72,7 @@ export async function decorate(container, data, query) {
     if (query) {
       createSearchItems();
     } else {
-      createNavigation(null, container.querySelector('.category'));
+      createNavigation(null, container.querySelector(SELECTOR.CATEGORY));
     }
   };
 
@@ -47,11 +80,11 @@ export async function decorate(container, data, query) {
    * Creates search items in the search result column based on the filtered tags.
    */
   const createSearchItems = () => {
-    const srConatiner = container.querySelector('.search-result-column');
+    const srConatiner = container.querySelector(SELECTOR.SEARCH_TAG_COLUMN);
     const filteredTags = UTILS.getFilteredTags(dataObj, query);
 
     const fragment = new DocumentFragment();
-    const list = document.createElement('ul');
+    const list = document.createElement(SELECTOR.UL);
     fragment.appendChild(list);
     filteredTags.forEach((key) => {
       createTagItem(key, list, false);
@@ -66,16 +99,16 @@ export async function decorate(container, data, query) {
    * @param {Event} e - The click event object.
    */
   const handleColumnItemClick = (e) => {
-    const ele = e.target.closest('p');
+    const ele = e.target.closest(SELECTOR.P);
     const { value } = ele;
-    const selected = ele.ariaChecked === 'true';
+    const selected = ele.ariaChecked === CONST.TRUE;
 
     if (selected) {
       selectedTags.splice(selectedTags.indexOf(value), 1);
     } else {
       selectedTags.push(value);
     }
-    ele.ariaChecked = selected ? 'false' : 'true';
+    ele.ariaChecked = selected ? CONST.FALSE : CONST.TRUE;
 
     changeSelectionLabel();
   };
@@ -84,7 +117,7 @@ export async function decorate(container, data, query) {
    * Updates the selected tags label in the UI.
    */
   const changeSelectionLabel = () => {
-    const selectedLabel = container.querySelector('.selectedLabel');
+    const selectedLabel = container.querySelector(SELECTOR.SELECTED_LABEL);
     selectedLabel.innerHTML = getSelectedLabel(selectedTags);
   };
 
@@ -96,7 +129,7 @@ export async function decorate(container, data, query) {
     navigator.clipboard.writeText(selectedTags.join(', '));
     container.dispatchEvent(
       new CustomEvent(PLUGIN_EVENTS.TOAST, {
-        detail: { message: 'Copied Tags' },
+        detail: { message: CONST.COPIED_MSG },
       }),
     );
   };
@@ -110,22 +143,22 @@ export async function decorate(container, data, query) {
     element.addEventListener('click', () => {
       selectedTags = [];
       const { parentElement } = element;
-      const isActive = parentElement.classList.contains('active');
-      const parentKey = parentElement.querySelector('.tag-item').value.trim();
-      const curColEle = parentElement.closest('.column');
+      const isActive = parentElement.classList.contains(CONST.ACTIVE);
+      const parentKey = parentElement.querySelector(SELECTOR.TAG_ITEM).value.trim();
+      const curColEle = parentElement.closest(SELECTOR.COLUMN);
       const curColNum = Number(curColEle.dataset.col);
-      const nextColEle = container.querySelector(`.subcategory[data-col="${curColNum + 1}"]`);
+      const nextColEle = container.querySelector(`${SELECTOR.SUBCATEGORY}[data-col="${curColNum + 1}"]`);
 
       if (isActive) {
         UTILS.removeColumnContent(nextColEle);
       } else {
         collapsePreviousColumns(curColNum);
         createNavigation(parentKey, nextColEle);
-        curColEle.classList.add('expanded');
-        UTILS.removeClass(container.querySelector(`.column[data-col="${curColNum}"] li.active`), 'active');
+        curColEle.classList.add(CONST.EXPANDED);
+        UTILS.removeClass(container.querySelector(`${SELECTOR.COLUMN}[data-col="${curColNum}"] ${SELECTOR.ACTIVE_ITEM}`), CONST.ACTIVE);
       }
       uncheckActiveItems();
-      parentElement.classList.toggle('active');
+      parentElement.classList.toggle(CONST.ACTIVE);
     });
 
     /**
@@ -135,7 +168,7 @@ export async function decorate(container, data, query) {
      */
     function collapsePreviousColumns(currentColumn) {
       for (let i = 5; i > currentColumn; i--) {
-        const colEle = container.querySelector(`.subcategory[data-col="${i}"]`);
+        const colEle = container.querySelector(`${SELECTOR.SUBCATEGORY}[data-col="${i}"]`);
         UTILS.removeColumnContent(colEle);
       }
     }
@@ -144,9 +177,9 @@ export async function decorate(container, data, query) {
      * Unchecks active items in the UI.
      */
     function uncheckActiveItems() {
-      const checkedItems = container.querySelectorAll('.tag-item[aria-checked="true"]');
+      const checkedItems = container.querySelectorAll(`${SELECTOR.TAG_ITEM}[aria-checked="${CONST.TRUE}"]`);
       checkedItems.forEach((item) => {
-        item.ariaChecked = 'false';
+        item.ariaChecked = CONST.FALSE;
       });
     }
   }
@@ -160,7 +193,7 @@ export async function decorate(container, data, query) {
   function createNavigation(parentKey, parentElement) {
     selectedTags = [];
     const fragment = new DocumentFragment();
-    const list = document.createElement('ul');
+    const list = document.createElement(SELECTOR.UL);
     fragment.appendChild(list);
     const elementJson = parentKey ? UTILS.findObjectByKey(dataObj, parentKey) : dataObj;
 
@@ -183,19 +216,19 @@ export async function decorate(container, data, query) {
   function createTagItem(tag, list, isObject) {
     const isSelected = selectedTags.includes(tag);
 
-    const listItem = document.createElement('li');
-    listItem.className = 'column-item';
+    const listItem = document.createElement(SELECTOR.LI);
+    listItem.className = CONST.COLUMN_ITEM;
 
-    const tagItem = document.createElement('p');
-    tagItem.className = 'tag-item';
-    tagItem.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+    const tagItem = document.createElement(SELECTOR.P);
+    tagItem.className = CONST.TAG_ITEM;
+    tagItem.setAttribute(CONST.ARIA_CHECKED, isSelected ? CONST.TRUE : CONST.FALSE);
     tagItem.value = tag;
 
     const tagItemElements = `
-    <img class="icon-img tag" src="/tools/sidekick/plugins/tags2/icons/tag.png">
-    <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags2/icons/tag-filled.png">
+    <img class="icon-img tag" src="/tools/sidekick/plugins/tags-advance/icons/tag.png">
+    <img class="icon-img tag-fill" src="/tools/sidekick/plugins/tags-advance/icons/tag-filled.png">
     <span value="${tag}">${tag}</span>
-    <img class="icon-img checked" src="/tools/sidekick/plugins/tags2/icons/checked.png">
+    <img class="icon-img checked" src="/tools/sidekick/plugins/tags-advance/icons/checked.png">
 `;
 
     tagItem.innerHTML = tagItemElements;
@@ -203,12 +236,12 @@ export async function decorate(container, data, query) {
     tagItem.addEventListener('click', handleColumnItemClick);
 
     if (isObject) {
-      const iconItem = document.createElement('p');
-      iconItem.className = 'icon-item';
+      const iconItem = document.createElement(SELECTOR.P);
+      iconItem.className = CONST.ICON_ITEM;
 
-      const icon = document.createElement('img');
+      const icon = document.createElement(SELECTOR.IMG);
       icon.className = 'icon-img right-chevron';
-      icon.src = '/tools/sidekick/plugins/tags2/icons/right-chevron.png';
+      icon.src = '/tools/sidekick/plugins/tags-advance/icons/right-chevron.png';
 
       iconItem.appendChild(icon);
       listItem.appendChild(iconItem);
@@ -224,7 +257,7 @@ export async function decorate(container, data, query) {
       <span class="selectedLabel">${getSelectedLabel(selectedTags)}</span>
       <p class="copy-action">
         <span>Copy</span>
-        <img class="icon-img copy" src="/tools/sidekick/plugins/tags2/icons/copy.png">
+        <img class="icon-img copy" src="/tools/sidekick/plugins/tags-advance/icons/copy.png">
       </p>
     </div>
     <sp-divider size="s"></sp-divider>`;
@@ -243,8 +276,8 @@ export async function decorate(container, data, query) {
   }
 
   // Create and append the container element
-  const spContainer = document.createElement('div');
-  spContainer.classList.add('container');
+  const spContainer = document.createElement(CONST.DIV);
+  spContainer.classList.add(CONST.CONTAINER);
   spContainer.innerHTML = sp;
   container.append(spContainer);
 
@@ -253,12 +286,12 @@ export async function decorate(container, data, query) {
   changeSelectionLabel();
 
   // Attach click event to the copy button
-  const copyButton = spContainer.querySelector('.copy-action');
+  const copyButton = spContainer.querySelector(SELECTOR.COPY_ACTION);
   copyButton.addEventListener('click', handleCopyButtonClick);
 }
 
 // Export metadata for the module
 export default {
-  title: 'Tags2',
+  title: CONST.PLUGIN_TITLE,
   searchEnabled: true,
 };
