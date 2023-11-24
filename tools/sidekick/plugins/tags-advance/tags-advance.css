@@ -1,6 +1,7 @@
 .container {
   --primary-bg-color: #ffffff;
   --border-color: #e9e9e9;
+  --item-bg-color: #F2F2F2;
   --accent-color: #2096f3;
   --text-color: #0265dd;
   max-width: 1500px;
@@ -92,11 +93,11 @@ ul > li,
 
 .column > ul > li.active {
   font-weight: 600;
-  background-color: #e9e9e9;
+  background-color: var(--item-bg-color);
 }
 
 .column:has(ul) {
-  border-right: solid 0.125rem #e9e9e9;
+  border-right: solid 0.125rem var(--border-color);
 }
 
 .selectedLabel {
@@ -108,8 +109,8 @@ ul > li,
   display: inline-block;
   width: 16px;
   height: 16px;
-  background-color: #2096f3;
-  color: #ffffff;
+  background-color: var(--accent-color);
+  color: var(--primary-bg-color);
   border-radius: 50%;
   padding: 4px;
   text-align: center;
