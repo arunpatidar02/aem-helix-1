@@ -72,6 +72,7 @@ function Preflight() {
   `;
 }
 
+// eslint-disable-next-line no-unused-vars
 function preloadAssets(el) {
   return new Promise((resolve) => {
     const bg = createTag('img', { src: `${window.hlx.codeBasePath}${IMG_PATH}/preflight-bg.png` });
@@ -89,6 +90,6 @@ function preloadAssets(el) {
 }
 
 export default async function decorate(el) {
-  await preloadAssets(el);
+  // await preloadAssets(el);
   render(html`<${Preflight} />`, el);
 }
