@@ -25,6 +25,12 @@
       "id": "open-github",
       "title": "Open GitHub",
       "event": "open-github"
+    },
+    {
+      "id": "preflight",
+      "title": "Preflight",
+      "environments": ["dev", "preview", "live"],
+      "event": "preflight"
     }
   ]
 }

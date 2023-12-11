@@ -10,6 +10,8 @@ import {
   decorateBlocks,
   decorateTemplateAndTheme,
   waitForLCP,
+  loadBlock,
+  decorateBlock,
   loadBlocks,
   loadCSS,
   toClassName,
@@ -127,6 +129,42 @@ async function loadEager(doc) {
   }
 }
 
+export function createTag(tag, attributes, html) {
+  const el = document.createElement(tag);
+  if (html) {
+    if (html instanceof HTMLElement
+      || html instanceof SVGElement
+      || html instanceof DocumentFragment) {
+      el.append(html);
+    } else if (Array.isArray(html)) {
+      el.append(...html);
+    } else {
+      el.insertAdjacentHTML('beforeend', html);
+    }
+  }
+  if (attributes) {
+    Object.entries(attributes).forEach(([key, val]) => {
+      el.setAttribute(key, val);
+    });
+  }
+  return el;
+}
+
+const preflightListener = async () => {
+  const section = createTag('div');
+  const wrapper = createTag('div');
+  section.appendChild(wrapper);
+  const preflightBlock = buildBlock('preflight', '');
+  wrapper.appendChild(preflightBlock);
+  decorateBlock(preflightBlock);
+  await loadBlock(preflightBlock);
+  const { default: getModal } = await import('../blocks/modal/modal.js');
+  const customModal = await getModal('dialog-modal', () => section.innerHTML, (modal) => {
+    modal.querySelector('button[name="close"]')?.addEventListener('click', () => modal.close());
+  });
+  customModal.showModal();
+};
+
 /**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
@@ -144,6 +182,11 @@ async function loadLazy(doc) {
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+
+  const sk = document.querySelector('helix-sidekick');
+
+  // Add plugin listeners here
+  sk.addEventListener('custom:preflight', preflightListener);
 
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
