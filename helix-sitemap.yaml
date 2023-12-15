@@ -2,6 +2,6 @@ version: 1
 
 sitemaps:
   aemlab:
-    origin: https://pages.adobe.com
+    origin: https://main--aem-helix-1--arunpatidar02.hlx.live
     source: /query-index.json
     destination: /sitemap.xml
