@@ -483,7 +483,9 @@ export async function fetchForm(pathname) {
     if (path.endsWith('.html')) {
       path = path.substring(0, path.lastIndexOf('.html'));
     }
-    path += '/jcr:content/root/section/form.html';
+  /* Disable url rewrite if source is not AEM
+  path += '/jcr:content/root/section/form.html';
+  */
   }
   let resp = await fetch(path);
 
@@ -518,7 +520,7 @@ export default async function decorate(block) {
   } else {
     ({ container, formDef } = extractFormDefinition(block));
   }
-  let source = 'aem';
+  let source = 'google-drive';
   let rules = true;
   let form;
   if (formDef) {
