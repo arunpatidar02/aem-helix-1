@@ -1,0 +1,70 @@
+main .form {
+    margin: 0 auto 80px;
+    max-width: 700px;
+    padding-block: 2rem;
+}
+
+main .form .field-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+main .form input, main .form textarea, main .form select {
+    border: 1px solid var(--border-gray);
+    width: 100%;
+    padding: 12px 1rem;
+}
+
+main .form input[type="checkbox"]{
+    width: 20px;
+    margin-bottom: 0.5rem;
+    margin-right: 1rem;
+}
+
+main .form textarea{
+    min-height: 20vh;
+}
+
+main .form label {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    font-size: var(--text-size-medium);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+main .form .form-submit-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+
+main .form .button {
+    cursor: pointer;
+    background: var(--color-pink);
+    color: var(--color-white);
+    font-size: var(--text-size-medium);
+    padding: 0.125rem .25rem;
+    font-weight: 400;
+    border-radius: 20px;
+    min-width: 160px;
+    height: 48px;
+    border: none;
+}
+
+
+main .form .form-validate-label {
+    color: var(--form-invalid-color);
+    font-size: var(--text-size-primary);
+    margin-top: 0.5rem;
+    display: none;
+}
+
+main .form .form-checkbox-wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+
+
