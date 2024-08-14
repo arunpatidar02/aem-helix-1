@@ -1,3 +1,6 @@
 helix-importer-ui
-
-ued.js
+scripts/experimentation/ued.js
+blocks/form/rules/formula/*
+blocks/form/rules/model/*
+blocks/form/rules-doc/RuleEngine.js
+blocks/form/rules/functionRegistration.js
