@@ -11,14 +11,15 @@ const openGitHub = ({ detail }) => {
 // eslint-disable-next-line import/prefer-default-export
 export function openGitHubRepo() {
   // bink event to the sidekick button
-  const sk = document.querySelector('helix-sidekick');
+  const SIDEKICK_SELECTOR = 'aem-sidekick';
+  const sk = document.querySelector(SIDEKICK_SELECTOR);
   if (sk) {
   // sidekick already loaded
     sk.addEventListener('custom:open-github', openGitHub);
   } else {
   // wait for sidekick to be loaded
     document.addEventListener('sidekick-ready', () => {
-      document.querySelector('helix-sidekick')
+      document.querySelector(SIDEKICK_SELECTOR)
         .addEventListener('custom:open-github', openGitHub);
     }, { once: true });
   }

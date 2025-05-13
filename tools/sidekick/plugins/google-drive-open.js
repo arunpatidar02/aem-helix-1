@@ -10,14 +10,15 @@ const openDrive = ({ detail }) => {
 // eslint-disable-next-line import/prefer-default-export
 export function opneGoogleDrive() {
   // bink event to the sidekick button
-  const sk = document.querySelector('helix-sidekick');
+  const SIDEKICK_SELECTOR = 'aem-sidekick';
+  const sk = document.querySelector(SIDEKICK_SELECTOR);
   if (sk) {
   // sidekick already loaded
     sk.addEventListener('custom:open-drive', openDrive);
   } else {
   // wait for sidekick to be loaded
     document.addEventListener('sidekick-ready', () => {
-      document.querySelector('helix-sidekick')
+      document.querySelector(SIDEKICK_SELECTOR)
         .addEventListener('custom:open-drive', openDrive);
     }, { once: true });
   }

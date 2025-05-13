@@ -183,7 +183,7 @@ async function loadLazy(doc) {
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
 
-  const sk = document.querySelector('helix-sidekick');
+  const sk = document.querySelector('aem-sidekick');
 
   // Add plugin listeners here
   sk.addEventListener('custom:preflight', preflightListener);
