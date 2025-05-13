@@ -3,9 +3,8 @@
  * @param {object} detail details about the project
  */
 const openGitHub = ({ detail }) => {
-  console.log(detail);
-  const config = detail.data?.config;
-  const githubUrl = `https://github.com/${config.innerHost.split('--')[2].split('.')[0]}/${config.repo}`;
+  const config = detail?.config;
+  const githubUrl = `https://github.com/${config.owner}/${config.repo}`;
   window.open(githubUrl, '_blank');
 };
 

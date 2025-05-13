@@ -3,9 +3,7 @@
  * @param {object} detail details about the project
  */
 const openDrive = ({ detail }) => {
-  console.log(detail);
-  const sk = detail.data;
-  window.open(sk?.config?.mountpoint, '_blank');
+  window.open(detail?.config?.mountpoint, '_blank');
 };
 
 // eslint-disable-next-line import/prefer-default-export
